@@ -36,10 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.movie {
-  width: 16em;
-  margin: 2em;
-  padding: 1em;
-  border: 2px solid black;
-}
