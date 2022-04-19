@@ -30,7 +30,11 @@ function App() {
     return (
       <div>
         {movies.map((movie) => (
-          <Movie name={movie.Name} desc={movie.Description} url={movie.URL} />
+          <Movie
+            name={movie.Name}
+            desc={movie.Description}
+            url={movie.Image_URL}
+          />
         ))}
       </div>
     );

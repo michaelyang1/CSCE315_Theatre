@@ -11,25 +11,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // info used to establish database connection
 var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "db",
+  host: "csce10.cl6mb70f9rfe.us-east-1.rds.amazonaws.com",
+  user: "admin",
+  password: "csce310database*",
+  database: "csce_310_project",
 });
 
 // connect to the database
 connection.connect();
 
-// display everything inside the movie_test table
-// connection.query("SELECT * FROM movie_test", (error, results) => {
-//   if (error) {
-//     throw error;
-//   }
-//   console.log(results);
-// });
-
 app.get("/get", (req, res) => {
-  connection.query("SELECT * FROM movie_test", (error, results) => {
+  connection.query("SELECT * FROM movies", (error, results) => {
     if (error) {
       throw error;
     }
