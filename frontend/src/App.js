@@ -10,6 +10,9 @@ function App() {
   return (
     <Router>
       <div className="m-4">
+        <Link to="/">
+          <h1 className="text-4xl font-thin mb-4">The 310 Theatre</h1>
+        </Link>
         <Switch>
           <Route exact path="/movies">
             <SelectMovie />

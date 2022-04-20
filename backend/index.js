@@ -50,19 +50,28 @@ app.get("/seats", (req, res) => {
 app.get("/showings", (req, res) => {
   let id = req.query.movie;
 
-  connection.query(
-    "SELECT * FROM showings WHERE Movie_ID = ?",
-    [id],
-    (error, results) => {
+  if (id == null) {
+    connection.query("SELECT * FROM showings", (error, results) => {
       if (error) {
         throw error;
       }
       res.send(results);
-    }
-  );
+    });
+  } else {
+    connection.query(
+      "SELECT * FROM showings WHERE Movie_ID = ?",
+      [id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.send(results);
+      }
+    );
+  }
 });
 
-app.get("/theater_reviews", (req, res) => {
+app.get("/reviews", (req, res) => {
   connection.query("SELECT * FROM theater_reviews", (error, results) => {
     if (error) {
       throw error;
@@ -89,7 +98,7 @@ app.get("/users", (req, res) => {
   });
 });
 
-app.get("/viewing_record", (req, res) => {
+app.get("/records", (req, res) => {
   connection.query("SELECT * FROM viewing_record", (error, results) => {
     if (error) {
       throw error;
