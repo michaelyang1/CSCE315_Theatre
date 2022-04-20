@@ -37,9 +37,30 @@
   }
 }
 
+.background-black {
+  background-color: black;
+  color:white;
+  font-size: 50px;
+  margin-left: 25%; 
+}
+#movieReel{
+  margin: 5%;
+}
+ 
+.background-white {
+  background-color: white;
+}
+
+.font-link {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
 .movie {
   width: 16em;
   margin: 2em;
   padding: 1em;
   border: 2px solid black;
 }
+
+

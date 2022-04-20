@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
+import { Image } from 'react';
 
 axios.defaults.baseURL = "http://localhost:5914";
 
@@ -16,9 +17,10 @@ function Movie({ name, desc, url }) {
 }
 
 function App() {
+
   const [loaded, setLoaded] = useState(false);
   const [movies, setMovies] = useState([]);
-
+  
   useEffect(() => {
     axios.get("/get").then((res) => {
       setMovies(res.data);
@@ -35,9 +37,11 @@ function App() {
       </div>
     );
   } else {
+    document.body.style.backgroundColor = "black"
     return (
-      <div>
-        <h1>LOADING MOVIES</h1>
+      <div  className='background-black' >
+        <span className="font-link" >LOADING MOVIES</span>
+        <img  className = "movieReel" src = {"https://img.icons8.com/windows/2x/film-reel--v2.gif"}/>
       </div>
     );
   }
