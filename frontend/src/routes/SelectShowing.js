@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function ShowingInfo({ movie, date_time }) {
+function ShowingInfo({ name, image_url, date_time }) {
   const date = new Date(date_time);
   return (
     <div className="flex h-48 shadow-md hover:bg-slate-100">
-      <img src={movie.Image_URL} alt={movie.name} />
+      <img src={image_url} alt={name} />
       <div className="m-4 space-y-2">
-        <h1 className="text-4xl">{movie.Name}</h1>
+        <h1 className="text-4xl">{name}</h1>
         <h2 className="text-3xl font-light">
           {date.toLocaleString("default", {
             month: "long",
@@ -21,6 +21,7 @@ function ShowingInfo({ movie, date_time }) {
   );
 }
 
+/*
 function ShowingGrid({ movie }) {
   const [showings, setShowings] = useState([]);
 
@@ -44,7 +45,29 @@ function ShowingGrid({ movie }) {
     </div>
   );
 }
+*/
 
+
+function ShowingGrid() {
+  const [showings, setShowings] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/showings").then((res) => {
+        setShowings(res.data);
+      });
+  }, []);
+
+  return (
+    <div className="flex flex-1 flex-wrap gap-4">
+      {showings.map((showing) => (
+        <ShowingInfo name={showing.Name} image_url={showing.Image_URL} date_time={showing.Date_Time} />
+      ))}
+    </div>
+  );
+}
+
+/*
 function SelectShowing({ movie }) {
   return (
     <div>
@@ -53,5 +76,17 @@ function SelectShowing({ movie }) {
     </div>
   );
 }
+*/
+
+function SelectShowing() {
+  return (
+    <div>
+      <h1 className="text-3xl mb-4 uppercase font-thin">Select Showing</h1>
+      <ShowingGrid />
+    </div>
+  );
+}
+
+
 
 export default SelectShowing;
