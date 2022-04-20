@@ -20,8 +20,77 @@ var connection = mysql.createConnection({
 // connect to the database
 connection.connect();
 
-app.get("/get", (req, res) => {
+app.get("/movies", (req, res) => {
   connection.query("SELECT * FROM movies", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.get("/rooms", (req, res) => {
+  connection.query("SELECT * FROM rooms", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.get("/seats", (req, res) => {
+  connection.query("SELECT * FROM seats", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.get("/showings", (req, res) => {
+  let id = req.query.movie;
+
+  connection.query(
+    "SELECT * FROM showings WHERE Movie_ID = ?",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    }
+  );
+});
+
+app.get("/theater_reviews", (req, res) => {
+  connection.query("SELECT * FROM theater_reviews", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.get("/tickets", (req, res) => {
+  connection.query("SELECT * FROM tickets", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.get("/users", (req, res) => {
+  connection.query("SELECT * FROM users", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.get("/viewing_record", (req, res) => {
+  connection.query("SELECT * FROM viewing_record", (error, results) => {
     if (error) {
       throw error;
     }
