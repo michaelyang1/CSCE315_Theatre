@@ -3,6 +3,7 @@ import "./App.css";
 import SelectMovie from "./routes/SelectMovie";
 import SelectShowing from "./routes/SelectShowing";
 import CreateMovie from "./routes/CreateMovie";
+import DeleteMovie from "./routes/DeleteMovie";
 import axios from "axios";
 import { Image } from "react";
 
@@ -25,6 +26,9 @@ function App() {
           <Route exact path="/create">
             <CreateMovie />
           </Route>
+          <Route exact path="/delete">
+            <DeleteMovie />
+          </Route>
           <Route path="/">
             <Link to="/movies">
               <h1 className="text-4xl hover:text-pink-700">Movies View</h1>
@@ -35,6 +39,11 @@ function App() {
             <Link to="/create">
               <h1 className="text-4xl hover:text-amber-500">
                 Create Movies View
+              </h1>
+            </Link>
+            <Link to="/delete">
+              <h1 className="text-4xl hover:text-lime-500">
+                Delete Movies View
               </h1>
             </Link>
           </Route>

@@ -1,10 +1,18 @@
 function MovieCard({ name, length, genre, desc, image, ...props }) {
   return (
     <div
-      className="w-52 shadow-md hover:bg-slate-100 flex flex-col cursor-pointer"
+      className="w-52 max-w-xs shadow-md hover:bg-slate-100 flex flex-col flex-grow cursor-pointer"
       {...props}
     >
-      <img src={image} alt={`${name} poster`} />
+      <img
+        src={image}
+        alt={`${name} poster`}
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null;
+          currentTarget.src =
+            "https://thumbs.dreamstime.com/b/red-screen-code-inscription-error-190547191.jpg";
+        }}
+      />
       <div className="flex flex-col flex-1 justify-between p-2">
         <div>
           <h1 className="text-lg font-semibold">

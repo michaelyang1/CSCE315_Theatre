@@ -12,7 +12,7 @@ function MovieGrid() {
   }, []);
 
   return (
-    <div className="flex flex-1 flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4">
       {movies.map((movie) => (
         <MovieCard
           key={movie.Movie_ID}
