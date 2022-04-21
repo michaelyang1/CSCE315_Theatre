@@ -162,7 +162,7 @@ function CreateMovie() {
       <div className="w-2/5">
         <h1 className="text-3xl mb-4 uppercase font-thin">Create Movie</h1>
         <div className="flex items-start gap-4">
-          <div className="">
+          <div>
             <MovieInput
               name={name}
               setName={setName}

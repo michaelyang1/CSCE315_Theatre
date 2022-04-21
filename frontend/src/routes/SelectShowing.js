@@ -60,7 +60,7 @@ function ShowingGrid({ movie_id }) {
       .then((res) => {
         setShowings(res.data);
       });
-  }, []);
+  }, [movie_id]);
 
   return (
     <div className="flex flex-1 flex-wrap gap-4">

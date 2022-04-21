@@ -30,12 +30,18 @@ app.get("/movies", (req, res) => {
 });
 
 app.get("/rooms", (req, res) => {
-  connection.query("SELECT * FROM rooms", (error, results) => {
-    if (error) {
-      throw error;
+  let id = req.query.room;
+
+  connection.query(
+    "select * from rooms where Room_Num = ?",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
     }
-    res.send(results);
-  });
+  );
 });
 
 app.get("/seats", (req, res) => {
@@ -49,18 +55,6 @@ app.get("/seats", (req, res) => {
 
 app.get("/showings", (req, res) => {
   let id = req.query.movie;
-
-  /*  connection.query(
-    "SELECT * FROM showings WHERE Movie_ID = ?",
-    [id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
-    }
-  );
-  */
 
   connection.query(
     "select Name, Image_URL, Date_Time from showings inner join movies on movies.Movie_ID = showings.Movie_ID where showings.Movie_ID = ?",
