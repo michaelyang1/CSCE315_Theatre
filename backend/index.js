@@ -50,25 +50,28 @@ app.get("/seats", (req, res) => {
 app.get("/showings", (req, res) => {
   let id = req.query.movie;
 
-  if (id == null) {
-    connection.query("SELECT * FROM showings", (error, results) => {
+  /*  connection.query(
+    "SELECT * FROM showings WHERE Movie_ID = ?",
+    [id],
+    (error, results) => {
       if (error) {
         throw error;
       }
       res.send(results);
-    });
-  } else {
-    connection.query(
-      "SELECT * FROM showings WHERE Movie_ID = ?",
-      [id],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        res.send(results);
+    }
+  );
+  */
+
+  connection.query(
+    "select Name, Image_URL, Date_Time from showings inner join movies on movies.Movie_ID = showings.Movie_ID where showings.Movie_ID = ?",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
       }
-    );
-  }
+      res.send(results);
+    }
+  );
 });
 
 app.get("/reviews", (req, res) => {

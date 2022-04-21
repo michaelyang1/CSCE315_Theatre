@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 import SelectMovie from "./routes/SelectMovie";
 import SelectShowing from "./routes/SelectShowing";
+import CreateMovie from "./routes/CreateMovie";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:5914";
@@ -18,25 +19,22 @@ function App() {
             <SelectMovie />
           </Route>
           <Route exact path="/showings">
-            <SelectShowing
-              movie={{
-                Movie_ID: 2,
-                Name: "Inception",
-                Length: 148,
-                Primary_Genre: "Action",
-                Description:
-                  "Written and Directed by Christopher Nolan in 2010. Staring Leonardo Dicaprio.",
-                Image_URL:
-                  "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
-              }}
-            />
+            <SelectShowing movie_id={2} />
+          </Route>
+          <Route exact path="/create">
+            <CreateMovie />
           </Route>
           <Route path="/">
             <Link to="/movies">
-              <h1 className="text-4xl mb-4 hover:text-pink-700">Movies View</h1>
+              <h1 className="text-4xl hover:text-pink-700">Movies View</h1>
             </Link>
             <Link to="/showings">
               <h1 className="text-4xl hover:text-purple-700">Showings View</h1>
+            </Link>
+            <Link to="/create">
+              <h1 className="text-4xl hover:text-amber-500">
+                Create Movies View
+              </h1>
             </Link>
           </Route>
         </Switch>
