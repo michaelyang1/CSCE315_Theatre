@@ -4,6 +4,7 @@ import SelectMovie from "./routes/SelectMovie";
 import SelectShowing from "./routes/SelectShowing";
 import CreateMovie from "./routes/CreateMovie";
 import axios from "axios";
+import { Image } from "react";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
