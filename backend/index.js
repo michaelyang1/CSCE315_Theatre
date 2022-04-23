@@ -57,7 +57,7 @@ app.get("/showings", (req, res) => {
   let id = req.query.movie;
 
   connection.query(
-    "select Name, Image_URL, Date_Time from showings inner join movies on movies.Movie_ID = showings.Movie_ID where showings.Movie_ID = ?",
+    "select Room_ID, Name, Image_URL, Date_Time from showings inner join movies on movies.Movie_ID = showings.Movie_ID where showings.Movie_ID = ?",
     [id],
     (error, results) => {
       if (error) {

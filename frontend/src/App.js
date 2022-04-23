@@ -6,10 +6,14 @@ import CreateMovie from "./routes/CreateMovie";
 import DeleteMovie from "./routes/DeleteMovie";
 import SelectSeats from "./routes/SelectSeats";
 import axios from "axios";
+import { useState } from "react";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
 function App() {
+  const [movie, setMovie] = useState(0);
+  const [room, setRoom] = useState(0);
+
   return (
     <Router>
       <div className="m-4">
@@ -18,10 +22,10 @@ function App() {
         </Link>
         <Switch>
           <Route exact path="/movies">
-            <SelectMovie />
+            <SelectMovie setMovie={setMovie} />
           </Route>
           <Route exact path="/showings">
-            <SelectShowing movie_id={2} />
+            <SelectShowing movie_id={movie} setRoom={setRoom} />
           </Route>
           <Route exact path="/create">
             <CreateMovie />
@@ -30,7 +34,7 @@ function App() {
             <DeleteMovie />
           </Route>
           <Route exact path="/seats">
-            <SelectSeats room_id={100} />
+            <SelectSeats room_id={room} />
           </Route>
           <Route path="/">
             <Link to="/movies">
