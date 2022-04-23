@@ -2,7 +2,7 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-function ShowingInfo({ name, image_url, date_time, ...props }) {
+function ShowingInfo({ name, image_url, date_time, imax, ...props }) {
   const date = new Date(date_time);
   return (
     <div
@@ -10,7 +10,7 @@ function ShowingInfo({ name, image_url, date_time, ...props }) {
       {...props}
     >
       <img src={image_url} alt={name} />
-      <div className="m-4 space-y-2">
+      <div className="m-4 space-y-2 relative">
         <h1 className="text-4xl">{name}</h1>
         <h2 className="text-3xl font-light">
           {date.toLocaleString("default", {
@@ -20,6 +20,13 @@ function ShowingInfo({ name, image_url, date_time, ...props }) {
             minute: "numeric",
           })}
         </h2>
+        <p
+          className={`${
+            imax ? "" : "hidden"
+          } bg-orange-400 px-2 py-1 rounded font-bold absolute bottom-0 right-0`}
+        >
+          IMAX
+        </p>
       </div>
     </div>
   );
@@ -32,6 +39,7 @@ function ShowingGrid({ movie_id, setRoom }) {
   const [showings, setShowings] = useState([]);
 
   useEffect(() => {
+    console.log("sending api request");
     axios
       .get("/showings", {
         params: {
@@ -44,12 +52,13 @@ function ShowingGrid({ movie_id, setRoom }) {
   }, [movie_id]);
 
   return (
-    <div className="flex flex-1 flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4">
       {showings.map((showing) => (
         <ShowingInfo
           name={showing.Name}
           image_url={showing.Image_URL}
           date_time={showing.Date_Time}
+          imax={showing.IMAX}
           onClick={() => {
             setRoom(showing.Room_ID);
             handleClick();

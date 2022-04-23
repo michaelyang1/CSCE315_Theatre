@@ -33,7 +33,7 @@ app.get("/rooms", (req, res) => {
   let id = req.query.room;
 
   connection.query(
-    "select * from rooms where Room_Num = ?",
+    "select * from rooms where Room_ID = ?",
     [id],
     (error, results) => {
       if (error) {
@@ -57,7 +57,7 @@ app.get("/showings", (req, res) => {
   let id = req.query.movie;
 
   connection.query(
-    "select Room_ID, Name, Image_URL, Date_Time from showings inner join movies on movies.Movie_ID = showings.Movie_ID where showings.Movie_ID = ?",
+    "select showings.Room_ID, Name, Image_URL, Date_Time, IMAX from showings inner join movies on movies.Movie_ID = showings.Movie_ID inner join rooms on showings.Room_ID = rooms.Room_ID where showings.Movie_ID = ?",
     [id],
     (error, results) => {
       if (error) {

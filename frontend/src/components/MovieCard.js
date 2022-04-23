@@ -15,10 +15,10 @@ function MovieCard({ name, length, genre, desc, image, ...props }) {
       />
       <div className="flex flex-col flex-1 justify-between p-2">
         <div>
-          <h1 className="text-lg font-semibold">
+          <h1 className="text-lg font-semibold break-words">
             {name ? name : "Movie Name"}
           </h1>
-          <p className="text-sm">
+          <p className="text-sm break-words">
             {desc ? desc : "This is an example description."}
           </p>
         </div>
