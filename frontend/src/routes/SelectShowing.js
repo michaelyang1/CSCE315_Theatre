@@ -46,9 +46,7 @@ function ShowingGrid({ movie_id, setRoom }) {
           movie: movie_id,
         },
       })
-      .then((res) => {
-        setShowings(res.data);
-      });
+      .then((res) => setShowings(res.data));
   }, [movie_id]);
 
   return (

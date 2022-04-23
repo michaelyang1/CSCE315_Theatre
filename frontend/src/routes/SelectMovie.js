@@ -10,9 +10,7 @@ function MovieGrid({ setMovie, search }) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    axios.get("/movies").then((res) => {
-      setMovies(res.data);
-    });
+    axios.get("/movies").then((res) => setMovies(res.data));
   }, []);
 
   return (

@@ -54,9 +54,7 @@ function SeatGrid({ room_id, capacity, setSelectedSeats }) {
   const [seats, setSeats] = useState([]);
 
   useEffect(() => {
-    axios.get("/seats").then((res) => {
-      setSeats(res.data);
-    });
+    axios.get("/seats").then((res) => setSeats(res.data));
   }, []);
 
   return (
