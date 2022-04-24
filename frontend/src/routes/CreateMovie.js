@@ -1,6 +1,39 @@
 import { useState } from "react";
 import MovieCard from "../components/MovieCard";
 
+function Field({ value, setValue, placeholder, label, id, type = "text" }) {
+  const className =
+    "w-full bg-gray-100 border invalid:border-red-500 border-gray-100 focus:bg-white outline-none p-2 rounded focus:border-gray-400";
+
+  return (
+    <>
+      <label htmlFor={id} className="uppercase font-semibold tracking-wider">
+        {label}
+      </label>
+      {type !== "textarea" ? (
+        <input
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => setValue(e.target.value)}
+          required
+          className={className}
+          id={id}
+        />
+      ) : (
+        <textarea
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => setValue(e.target.value)}
+          required
+          className={className}
+          id={id}
+        />
+      )}
+    </>
+  );
+}
+
 function MovieInput({
   name,
   setName,
@@ -13,21 +46,10 @@ function MovieInput({
   imageURL,
   setImageURL,
 }) {
-  const [nameError, setNameError] = useState(false);
-  const [lengthError, setLengthError] = useState(false);
-  const [genreError, setGenreError] = useState(false);
-  const [descriptionError, setDescriptionError] = useState(false);
-  const [imageURLError, setImageURLError] = useState(false);
   const [error, setError] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    setNameError(name === "");
-    setLengthError(length === "");
-    setGenreError(genre === "");
-    setDescriptionError(description === "");
-    setImageURLError(imageURL === "");
 
     if (
       name === "" ||
@@ -46,100 +68,62 @@ function MovieInput({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2 shadow-md p-4">
-      <div className="flex gap-6 max-w-none">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-2 shadow-md p-4"
+      noValidate
+    >
+      <div className="flex gap-6">
         <div className="w-3/6">
-          <label
-            htmlFor="name"
-            className="uppercase font-semibold tracking-wider"
-          >
-            Name
-          </label>
-          <input
-            type="text"
+          <Field
             value={name}
+            setValue={setName}
             placeholder="Inception"
-            onChange={(e) => setName(e.target.value)}
-            className={`w-full bg-gray-100 border ${
-              nameError ? "border-red-500" : "border-gray-100"
-            } focus:bg-white outline-none p-2 rounded focus:border-gray-400`}
+            label="Name"
             id="name"
           />
         </div>
         <div className="w-1/6">
-          <label
-            htmlFor="length"
-            className="uppercase font-semibold tracking-wider"
-          >
-            Length
-          </label>
-          <input
-            type="number"
+          <Field
             value={length}
+            setValue={setLength}
             placeholder="123"
-            onChange={(e) => setLength(e.target.value)}
-            className={`w-full bg-gray-100 border ${
-              lengthError ? "border-red-500" : "border-gray-100"
-            } focus:bg-white outline-none p-2 rounded focus:border-gray-400`}
+            label="Length"
             id="length"
+            type="number"
           />
         </div>
         <div className="w-2/6">
-          <label
-            htmlFor="genre"
-            className="uppercase font-semibold tracking-wider"
-          >
-            Genre
-          </label>
-          <input
-            type="text"
+          <Field
             value={genre}
+            setValue={setGenre}
             placeholder="Action"
-            onChange={(e) => setGenre(e.target.value)}
-            className={`w-full bg-gray-100 border ${
-              genreError ? "border-red-500" : "border-gray-100"
-            } focus:bg-white outline-none p-2 rounded focus:border-gray-400`}
+            label="Genre"
             id="genre"
           />
         </div>
       </div>
-      <div className="w-full">
-        <label
-          htmlFor="description"
-          className="uppercase font-semibold tracking-wider"
-        >
-          Description
-        </label>
-        <textarea
+      <div>
+        <Field
           value={description}
+          setValue={setDescription}
           placeholder="Enter a description for the movie here."
-          onChange={(e) => setDescription(e.target.value)}
-          className={`w-full h-20 bg-gray-100 border ${
-            descriptionError ? "border-red-500" : "border-gray-100"
-          } focus:bg-white outline-none p-2 rounded focus:border-gray-400`}
+          label="Description"
           id="description"
+          type="textarea"
         />
       </div>
       <div className="w-full">
-        <label
-          htmlFor="imageURL"
-          className="uppercase font-semibold tracking-wider"
-        >
-          Image URL
-        </label>
-        <input
-          type="text"
+        <Field
           value={imageURL}
+          setValue={setImageURL}
           placeholder="https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg"
-          onChange={(e) => setImageURL(e.target.value)}
-          className={`w-full bg-gray-100 border ${
-            imageURLError ? "border-red-500" : "border-gray-100"
-          } focus:bg-white outline-none p-2 rounded focus:border-gray-400`}
+          label="Image URL"
           id="imageURL"
         />
       </div>
       <p className={`${error ? "" : "hidden"} text-red-500 text-sm italic`}>
-        You cannot submit until all fields have been filled.
+        You cannot submit until all fields are filled.
       </p>
       <input
         type="submit"
@@ -152,7 +136,7 @@ function MovieInput({
 
 function CreateMovie() {
   const [name, setName] = useState("");
-  const [length, setLength] = useState(0);
+  const [length, setLength] = useState("");
   const [genre, setGenre] = useState("");
   const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
