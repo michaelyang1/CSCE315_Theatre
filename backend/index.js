@@ -66,18 +66,6 @@ app.get("/showings", (req, res) => {
       res.send(results);
     }
   );
-  */
-
-  connection.query(
-    "select Name, Image_URL, Date_Time from showings inner join movies on movies.Movie_ID = showings.Movie_ID;",
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
-    }
-  );
-
 });
 
 app.get("/reviews", (req, res) => {
