@@ -113,11 +113,11 @@ app.get("/viewing_record", (req, res) => {
 
 // POST REQUESTS
 app.post("/movies", (req, res) => {
-  let movie_name = req.Name
-  let movie_length = req.Length
-  let movie_primary_genre = req.Primary_Genre
-  let movie_description = req.Description
-  let movie_image_url = req.Image_URL
+  let movie_name = req.query.Name
+  let movie_length = req.query.Length
+  let movie_primary_genre = req.query.Primary_Genre
+  let movie_description = req.query.Description
+  let movie_image_url = req.query.Image_URL
 
   if(movie_name == null || movie_length == null || movie_primary_genre == null || movie_description == null || movie_image_url == null) {
     throw "Invalid movie request"
@@ -133,8 +133,8 @@ app.post("/movies", (req, res) => {
 });
 
 app.post("/seats", (req, res) => {
-  let seat_type = req.seat_type
-  let room_id = req.room_id
+  let seat_type = req.query.seat_type
+  let room_id = req.query.room_id
 
   if(seat_type == null || room_id == null) {
     throw "Invalid seat request"
@@ -150,9 +150,9 @@ app.post("/seats", (req, res) => {
 });
 
 app.post("/showings", (req, res) => {
-  let movie_id = req.movie_id
-  let room_id = req.room_id
-  let showing_time = req.showing_time
+  let movie_id = req.query.movie_id
+  let room_id = req.query.room_id
+  let showing_time = req.query.showing_time
 
   if(movie_id == null || room_id == null || showing_time == null) {
     throw "Invalid showings request"
@@ -168,10 +168,10 @@ app.post("/showings", (req, res) => {
 });
 
 app.post("/theater_reviews", (req, res) => {
-  let user_id = req.user_id
-  let star_rating = req.star_rating
-  let review = req.review
-  let time_posted = req.time_posted
+  let user_id = req.query.user_id
+  let star_rating = req.query.star_rating
+  let review = req.query.review
+  let time_posted = req.query.time_posted
 
   if(user_id == null || star_rating == null || review == null || time_posted == null) {
     throw "Invalid theater_reviews request"
@@ -187,10 +187,10 @@ app.post("/theater_reviews", (req, res) => {
 });
 
 app.post("/tickets", (req, res) => {
-  let user_id = req.user_id
-  let star_rating = req.star_rating
-  let review = req.review
-  let time_posted = req.time_posted
+  let user_id = req.query.user_id
+  let star_rating = req.query.star_rating
+  let review = req.query.review
+  let time_posted = req.query.time_posted
 
   if(user_id == null || star_rating == null || review == null || time_posted == null) {
     throw "Invalid theater_reviews request"
@@ -206,14 +206,14 @@ app.post("/tickets", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  let admin_status = req.admin_status
-  let first_name = req.first_name
-  let last_name = req.last_name
-  let favorite_movie = req.favorite_movie
-  let favorite_room = req.favorite_room
-  let phone_number = req.phone_number
-  let username = req.username
-  let password = req.password
+  let admin_status = req.query.admin_status
+  let first_name = req.query.first_name
+  let last_name = req.query.last_name
+  let favorite_movie = req.query.favorite_movie
+  let favorite_room = req.query.favorite_room
+  let phone_number = req.query.phone_number
+  let username = req.query.username
+  let password = req.query.password
 
   if(admin_status == null || first_name == null || last_name == null || favorite_movie == null || favorite_room == null
     || phone_number == null || username == null || password == null) {
@@ -231,8 +231,8 @@ app.post("/users", (req, res) => {
 });
 
 app.post("/viewing_record", (req, res) => {
-  let user_id = req.user_id
-  let showing_id = req.showing_id
+  let user_id = req.query.user_id
+  let showing_id = req.query.showing_id
 
   if(user_id == null || showing_id == null) {
     throw "Invalid viewing record request"
