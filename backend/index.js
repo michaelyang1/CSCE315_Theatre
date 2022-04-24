@@ -44,6 +44,8 @@ app.get("/rooms", (req, res) => {
   );
 });
 
+// reserved seats queue: select Seat_ID from showings inner join tickets on showings.Showing_ID = tickets.Showing_ID where showings.Showing_ID = ?
+// TODO: make seats query for specific room
 app.get("/seats", (req, res) => {
   connection.query("SELECT * FROM seats", (error, results) => {
     if (error) {
@@ -51,6 +53,21 @@ app.get("/seats", (req, res) => {
     }
     res.send(results);
   });
+});
+
+app.get("/reserved-seats-i-guess", (req, res) => {
+  let id = req.query.showing;
+
+  connection.query(
+    "select Seat_ID from showings inner join tickets on showings.Showing_ID = tickets.Showing_ID where showings.Showing_ID = ?",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    }
+  );
 });
 
 app.get("/showings", (req, res) => {
