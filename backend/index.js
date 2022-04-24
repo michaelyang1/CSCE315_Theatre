@@ -47,13 +47,27 @@ app.get("/rooms", (req, res) => {
 // reserved seats queue: select Seat_ID from showings inner join tickets on showings.Showing_ID = tickets.Showing_ID where showings.Showing_ID = ?
 // TODO: make seats query for specific room
 app.get("/seats", (req, res) => {
-  connection.query("SELECT * FROM seats", (error, results) => {
-    if (error) {
-      throw error;
+  let id = req.query.showing;
+
+  connection.query(
+    "select seats.Seat_ID, Type, case when showings.Showing_ID = tickets.Showing_ID then 1 else 0 end as Reserved from seats inner join showings on seats.Room_ID = showings.Room_ID left outer join tickets on seats.Seat_ID = tickets.Seat_ID where showings.Showing_ID = ?",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
     }
-    res.send(results);
-  });
+  );
 });
+// app.get("/seats", (req, res) => {
+//   connection.query("SELECT * FROM seats", (error, results) => {
+//     if (error) {
+//       throw error;
+//     }
+//     res.send(results);
+//   });
+// });
 
 app.get("/reserved-seats-i-guess", (req, res) => {
   let id = req.query.showing;
@@ -74,7 +88,7 @@ app.get("/showings", (req, res) => {
   let id = req.query.movie;
 
   connection.query(
-    "select showings.Room_ID, Name, Image_URL, Date_Time, IMAX from showings inner join movies on movies.Movie_ID = showings.Movie_ID inner join rooms on showings.Room_ID = rooms.Room_ID where showings.Movie_ID = ?",
+    "select Showing_ID, showings.Room_ID, Name, Image_URL, Date_Time, IMAX from showings inner join movies on movies.Movie_ID = showings.Movie_ID inner join rooms on showings.Room_ID = rooms.Room_ID where showings.Movie_ID = ? order by Showing_ID",
     [id],
     (error, results) => {
       if (error) {

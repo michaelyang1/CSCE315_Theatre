@@ -14,6 +14,7 @@ axios.defaults.baseURL = "http://localhost:5914";
 
 function App() {
   const [movie, setMovie] = useState(0);
+  const [showing, setShowing] = useState(0);
   const [room, setRoom] = useState(0);
 
   return (
@@ -27,7 +28,11 @@ function App() {
             <SelectMovie setMovie={setMovie} />
           </Route>
           <Route exact path="/showings">
-            <SelectShowing movie_id={movie} setRoom={setRoom} />
+            <SelectShowing
+              movieID={movie}
+              setShowing={setShowing}
+              setRoom={setRoom}
+            />
           </Route>
           <Route exact path="/create">
             <CreateMovie />
@@ -36,7 +41,7 @@ function App() {
             <DeleteMovie />
           </Route>
           <Route exact path="/seats">
-            <SelectSeats room_id={room} />
+            <SelectSeats roomID={room} showingID={showing} />
           </Route>
           <Route exact path="/users">
             <SelectUsers />
