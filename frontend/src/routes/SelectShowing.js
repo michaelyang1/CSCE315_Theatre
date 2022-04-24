@@ -32,10 +32,15 @@ function ShowingInfo({ name, image_url, date_time, imax, ...props }) {
   );
 }
 
+<<<<<<< HEAD
 function ShowingGrid({ movie_id, setRoom }) {
   const history = useHistory();
   const handleClick = useCallback(() => history.push("/seats"), [history]);
 
+=======
+/*
+function ShowingGrid({ movie }) {
+>>>>>>> 4636c202ebfe192990320e682ef3f37ed7d1dd24
   const [showings, setShowings] = useState([]);
 
   useEffect(() => {
@@ -66,8 +71,34 @@ function ShowingGrid({ movie_id, setRoom }) {
     </div>
   );
 }
+*/
 
+<<<<<<< HEAD
 function SelectShowing({ movie_id, setRoom }) {
+=======
+
+function ShowingGrid() {
+  const [showings, setShowings] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/showings").then((res) => {
+        setShowings(res.data);
+      });
+  }, []);
+
+  return (
+    <div className="flex flex-1 flex-wrap gap-4">
+      {showings.map((showing) => (
+        <ShowingInfo name={showing.Name} image_url={showing.Image_URL} date_time={showing.Date_Time} />
+      ))}
+    </div>
+  );
+}
+
+/*
+function SelectShowing({ movie }) {
+>>>>>>> 4636c202ebfe192990320e682ef3f37ed7d1dd24
   return (
     <div>
       <h1 className="text-3xl mb-4 uppercase font-thin">Select Showing</h1>
@@ -75,5 +106,17 @@ function SelectShowing({ movie_id, setRoom }) {
     </div>
   );
 }
+*/
+
+function SelectShowing() {
+  return (
+    <div>
+      <h1 className="text-3xl mb-4 uppercase font-thin">Select Showing</h1>
+      <ShowingGrid />
+    </div>
+  );
+}
+
+
 
 export default SelectShowing;
