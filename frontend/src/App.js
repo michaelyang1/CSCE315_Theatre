@@ -6,6 +6,7 @@ import CreateMovie from "./routes/CreateMovie";
 import DeleteMovie from "./routes/DeleteMovie";
 import SelectSeats from "./routes/SelectSeats";
 import SelectUsers from "./routes/SelectUsers";
+import CreateReview from "./routes/CreateReview";
 import axios from "axios";
 import { useState } from "react";
 
@@ -40,6 +41,9 @@ function App() {
           <Route exact path="/users">
             <SelectUsers />
           </Route>
+          <Route exact path="/reviews">
+            <CreateReview />
+          </Route>
           <Route path="/">
             <Link to="/movies">
               <h1 className="text-4xl hover:text-pink-700">Movies View</h1>
@@ -65,6 +69,11 @@ function App() {
             <Link to="/users">
               <h1 className="text-4xl hover:text-pink-500">
                 Select Users View
+              </h1>
+            </Link>
+            <Link to="/reviews">
+              <h1 className="text-4xl hover:text-yellow-200">
+                Create Reviews View
               </h1>
             </Link>
           </Route>
