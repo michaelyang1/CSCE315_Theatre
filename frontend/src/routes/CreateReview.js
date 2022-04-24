@@ -34,7 +34,7 @@ function StarRating({ hover, setHover, rating, setRating }) {
           >
             {(hover !== rating && index <= hover) ||
             (hover === rating && index <= rating) ? (
-              <BsStarFill className="w-8 h-auto fill-yellow-300" />
+              <BsStarFill className="w-8 h-auto fill-amber-300" />
             ) : (
               <BsStar className="w-8 h-auto" />
             )}
@@ -75,7 +75,9 @@ function Review({ username, verified }) {
       setError(true);
     } else {
       setError(false);
-      alert(`pretend to submit this review: ${rating}, ${time}, ${review}`);
+      alert(
+        `pretend to submit this review: ${rating}, ${new Date().toLocaleString()}, ${review}`
+      );
     }
   };
 
@@ -84,7 +86,7 @@ function Review({ username, verified }) {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl">{username}</h1>
         {verified && (
-          <p className="text-white px-2 py-1 text-sm font-semibold bg-emerald-500 rounded-full uppercase">
+          <p className="text-white px-2 py-1 text-sm font-semibold bg-emerald-500 rounded-full uppercase shadow-md shadow-emerald-200">
             Verified
           </p>
         )}
@@ -119,7 +121,7 @@ function Review({ username, verified }) {
       </p>
       <div>
         <button
-          className="border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white px-4 py-2 rounded font-semibold"
+          className="border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white px-4 py-2 rounded font-semibold hover:shadow-md hover:shadow-emerald-200"
           onClick={handleClick}
         >
           Create Review

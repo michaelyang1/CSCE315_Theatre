@@ -128,7 +128,7 @@ function MovieInput({
       <input
         type="submit"
         value="Add Movie"
-        className="border text-rose-500 border-rose-500 hover:text-white hover:bg-rose-500 px-4 py-2 font-semibold rounded"
+        className="border text-rose-500 border-rose-500 hover:text-white hover:bg-rose-500 hover:shadow-md hover:shadow-rose-300 px-4 py-2 font-semibold rounded"
       />
     </form>
   );
