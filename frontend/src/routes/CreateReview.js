@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BsStarFill, BsStar } from "react-icons/bs";
+import { BsStarFill } from "react-icons/bs";
 
 function MovieInfo({ name, length, genre, description, imageURL }) {
   return (
@@ -32,12 +32,14 @@ function StarRating({ hover, setHover, rating, setRating }) {
             onClick={() => setRating(index)}
             className="p-2 first:pl-0 last:pr-0"
           >
-            {(hover !== rating && index <= hover) ||
-            (hover === rating && index <= rating) ? (
-              <BsStarFill className="w-8 h-auto fill-amber-300" />
-            ) : (
-              <BsStar className="w-8 h-auto" />
-            )}
+            <BsStarFill
+              className={`w-8 h-auto transition ease-in-out ${
+                (hover !== rating && index <= hover) ||
+                (hover === rating && index <= rating)
+                  ? "fill-amber-300"
+                  : "fill-neutral-200"
+              }`}
+            />
           </div>
         );
       })}
@@ -84,7 +86,7 @@ function Review({ username, verified }) {
   return (
     <div className="shadow-md p-4 flex flex-col gap-2">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl">{username}</h1>
+        <h1 className="text-3xl font-light">{username}</h1>
         {verified && (
           <p className="text-white px-2 py-1 text-sm font-semibold bg-emerald-500 rounded-full uppercase shadow-md shadow-emerald-200">
             Verified
