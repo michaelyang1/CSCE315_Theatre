@@ -58,12 +58,7 @@ function App() {
             <CreateReview />
           </Route>
           <Route exact path="/confirm">
-            <ConfirmTicket
-              userID={user}
-              movieID={movie}
-              showingID={showing}
-              seatIDS={seats}
-            />
+            <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
           </Route>
           <Route path="/">
             <Link to="/movies">

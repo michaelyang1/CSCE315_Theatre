@@ -3,25 +3,21 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-function Seat({ num, setSelectedSeats, active }) {
-  const [selected, setSelected] = useState(false);
-
+function Seat({ num, selectedSeats, setSelectedSeats, active }) {
   return (
     <div className="w-12">
       <MdEventSeat
         className={`w-full h-full cursor-pointer fill-neutral-500 ${
           active
-            ? selected
+            ? selectedSeats.includes(num)
               ? "!fill-sky-500"
               : "hover:fill-green-500"
             : "fill-black pointer-events-none"
         }`}
         onClick={() => {
-          if (!selected) {
-            setSelected(true);
+          if (!selectedSeats.includes(num)) {
             setSelectedSeats((selectedSeats) => [...selectedSeats, num]);
           } else {
-            setSelected(false);
             setSelectedSeats((selectedSeats) =>
               selectedSeats.filter((selectedSeat) => selectedSeat !== num)
             );
@@ -43,7 +39,13 @@ function RoomInfo({ capacity, imax }) {
   );
 }
 
-function SeatGrid({ roomID, showingID, capacity, setSelectedSeats }) {
+function SeatGrid({
+  roomID,
+  showingID,
+  capacity,
+  selectedSeats,
+  setSelectedSeats,
+}) {
   const [seats, setSeats] = useState([]);
 
   useEffect(() => {
@@ -66,6 +68,7 @@ function SeatGrid({ roomID, showingID, capacity, setSelectedSeats }) {
           <Seat
             key={seat_num}
             num={seat_num}
+            selectedSeats={selectedSeats}
             setSelectedSeats={setSelectedSeats}
             active={seats.some(
               (seat) => seat.Seat_ID === seat_num && !seat.Reserved
@@ -111,6 +114,7 @@ function SeatsInput({
         showingID={showingID}
         capacity={capacity}
         imax={imax}
+        selectedSeats={selectedSeats}
         setSelectedSeats={setSelectedSeats}
       />
       <p className={`${error ? "" : "hidden"} text-red-500 text-sm italic`}>
@@ -136,6 +140,10 @@ function SeatsInput({
 function SelectSeats({ roomID, showingID, selectedSeats, setSelectedSeats }) {
   const [capacity, setCapacity] = useState(0);
   const [imax, setIMAX] = useState(false);
+
+  useEffect(() => {
+    setSelectedSeats([]);
+  }, [setSelectedSeats]);
 
   useEffect(() => {
     axios
