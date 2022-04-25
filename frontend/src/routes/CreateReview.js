@@ -33,7 +33,7 @@ function StarRating({ hover, setHover, rating, setRating }) {
             className="p-2 first:pl-0 last:pr-0"
           >
             <BsStarFill
-              className={`w-8 h-auto transition ease-in-out ${
+              className={`w-8 h-auto transition ease-in-out cursor-pointer ${
                 (hover !== rating && index <= hover) ||
                 (hover === rating && index <= rating)
                   ? "fill-amber-300"
@@ -113,10 +113,10 @@ function Review({ username, verified }) {
       <textarea
         value={review}
         onChange={(e) => setReview(e.target.value)}
-        placeholder="Enter a review of the movie here."
+        placeholder="Enter a review of the theatre here."
         id="review"
         required
-        className="w-full bg-gray-100 border invalid:border-red-500 border-gray-100 focus:bg-white outline-none p-2 rounded focus:border-gray-400 h-32"
+        className="w-full bg-gray-100 border invalid:border-red-400 border-gray-100 focus:bg-white outline-none p-2 rounded focus:border-gray-400 h-32"
       />
       <p className={`${!error ? "hidden" : ""} text-red-500 italic text-sm`}>
         Cannot submit review until all fields are filled.

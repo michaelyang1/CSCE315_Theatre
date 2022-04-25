@@ -106,8 +106,9 @@ app.get("/tickets", (req, res) => {
 
 app.get("/users", (req, res) => {
   const id = req.query.id;
+  const username = req.query.username;
 
-  if (id === undefined) {
+  if (id === undefined && username === undefined) {
     const query = "select * from users";
     connection.query(query, (error, results) => {
       if (error) {
@@ -115,9 +116,17 @@ app.get("/users", (req, res) => {
       }
       res.send(results);
     });
-  } else {
+  } else if (id !== undefined) {
     const query = "select * from users where User_ID = ?";
     connection.query(query, [id], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  } else {
+    const query = "select * from users where Username = ?";
+    connection.query(query, [username], (error, results) => {
       if (error) {
         throw error;
       }

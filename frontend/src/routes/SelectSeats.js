@@ -7,12 +7,12 @@ function Seat({ num, selectedSeats, setSelectedSeats, active }) {
   return (
     <div className="w-12">
       <MdEventSeat
-        className={`w-full h-full cursor-pointer fill-neutral-500 ${
+        className={`w-full h-full cursor-pointer fill-neutral-400 ${
           active
             ? selectedSeats.includes(num)
               ? "!fill-sky-500"
               : "hover:fill-green-500"
-            : "fill-black pointer-events-none"
+            : " !fill-neutral-600 pointer-events-none"
         }`}
         onClick={() => {
           if (!selectedSeats.includes(num)) {

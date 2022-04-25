@@ -22,7 +22,7 @@ function UserCard({ admin, firstName, lastName, phoneNumber, username }) {
           <h2 className="font-mono">{phoneNumber}</h2>
         </div>
         {!!admin && (
-          <p className="bg-purple-600 text-white px-2 py-1 rounded ml-auto text-sm">
+          <p className="bg-purple-600 text-white px-2 py-1 rounded ml-auto text-sm shadow-md shadow-purple-400">
             Admin
           </p>
         )}
