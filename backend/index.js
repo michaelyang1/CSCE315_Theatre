@@ -48,7 +48,7 @@ app.get("/seats", (req, res) => {
   const id = req.query.showing;
 
   const query =
-    "select seats.Seat_ID, Type, case when showings.Showing_ID = tickets.Showing_ID then 1 else 0 end as Reserved from seats inner join showings on seats.Room_ID = showings.Room_ID left outer join tickets on seats.Seat_ID = tickets.Seat_ID where showings.Showing_ID = ?";
+    "select seats.Seat_ID, Type, case when seats.Seat_ID = tickets.Seat_ID then 1 else 0 end as Reserved from showings inner join seats on showings.Room_ID = seats.Room_ID left outer join tickets on showings.Showing_ID = tickets.Showing_ID and seats.Seat_ID = tickets.Seat_ID where showings.Showing_ID = ?";
   connection.query(query, [id], (error, results) => {
     if (error) {
       throw error;
@@ -62,6 +62,20 @@ app.get("/showings", (req, res) => {
 
   const query =
     "select Showing_ID, showings.Room_ID, Name, Image_URL, Date_Time, IMAX from showings inner join movies on movies.Movie_ID = showings.Movie_ID inner join rooms on showings.Room_ID = rooms.Room_ID where showings.Movie_ID = ? order by Showing_ID";
+  connection.query(query, [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+// this is used by ConfirmTicket to get all movie/showing information from just showing id
+app.get("/temp-showings", (req, res) => {
+  const id = req.query.showing;
+
+  const query =
+    "select Showing_ID, showings.Room_ID, Name, Length, Primary_Genre, Description, Image_URL, Date_Time, IMAX from showings inner join movies on movies.Movie_ID = showings.Movie_ID inner join rooms on showings.Room_ID = rooms.Room_ID where Showing_ID = ?";
   connection.query(query, [id], (error, results) => {
     if (error) {
       throw error;
@@ -91,13 +105,25 @@ app.get("/tickets", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  const query = "select * from users";
-  connection.query(query, (error, results) => {
-    if (error) {
-      throw error;
-    }
-    res.send(results);
-  });
+  const id = req.query.id;
+
+  if (id === undefined) {
+    const query = "select * from users";
+    connection.query(query, (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  } else {
+    const query = "select * from users where User_ID = ?";
+    connection.query(query, [id], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  }
 });
 
 app.get("/records", (req, res) => {
