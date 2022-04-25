@@ -12,7 +12,7 @@ function Field({
   type = "text",
 }) {
   const className = `w-full bg-gray-100 border  ${
-    success ? "border-emerald-500" : "invalid:border-red-500"
+    success ? "border-emerald-500" : "invalid:border-red-400"
   } border-gray-100 focus:bg-white outline-none p-2 rounded focus:border-gray-400`;
 
   return (
