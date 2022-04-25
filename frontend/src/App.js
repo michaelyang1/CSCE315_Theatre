@@ -8,6 +8,7 @@ import SelectSeats from "./routes/SelectSeats";
 import SelectUsers from "./routes/SelectUsers";
 import CreateReview from "./routes/CreateReview";
 import ConfirmTicket from "./routes/ConfirmTicket";
+import Login from "./routes/login";
 import axios from "axios";
 import { useState } from "react";
 
@@ -60,12 +61,28 @@ function App() {
           <Route exact path="/confirm">
             <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
           </Route>
-          <Route path="/">
+          <Route exact path = "/">
+            <Login></Login>
+          </Route>
+
+          <Route exact path= "/userLanding">
+             <div>
+                  <Link to="/movies">
+                    <h1 className="text-4xl hover:text-pink-500">Select Movie</h1>
+                  </Link>
+                </div>
+                <div>
+                <Link to="/reviews">
+                  <h1 className="text-4xl hover:text-yellow-400">
+                    Create Review
+                  </h1>
+                </Link>
+              </div>
+          </Route>
+
+          <Route path="/adminLanding">
             <div className="flex gap-8 font-thin">
               <div>
-                <Link to="/movies">
-                  <h1 className="text-4xl hover:text-pink-500">Select Movie</h1>
-                </Link>
                 <Link to="/create">
                   <h1 className="text-4xl hover:text-orange-300">
                     Create Movie
@@ -82,15 +99,12 @@ function App() {
                   </h1>
                 </Link>
               </div>
-              <div>
-                <Link to="/reviews">
-                  <h1 className="text-4xl hover:text-yellow-400">
-                    Create Review
-                  </h1>
-                </Link>
-              </div>
+
             </div>
           </Route>
+
+
+          
         </Switch>
       </div>
     </Router>
