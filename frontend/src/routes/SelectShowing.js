@@ -53,6 +53,7 @@ function ShowingGrid({ movieID, setShowing, setRoom }) {
     <div className="flex flex-wrap gap-4">
       {showings.map((showing) => (
         <ShowingInfo
+          key={showing.Showing_ID}
           name={showing.Name}
           imageURL={showing.Image_URL}
           dateTime={showing.Date_Time}

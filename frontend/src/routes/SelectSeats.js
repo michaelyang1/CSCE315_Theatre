@@ -1,6 +1,7 @@
 import { MdEventSeat } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function Seat({ num, setSelectedSeats, active }) {
   const [selected, setSelected] = useState(false);
@@ -97,16 +98,10 @@ function SeatsInput({
   selectedSeats,
   setSelectedSeats,
 }) {
+  const history = useHistory();
   const [error, setError] = useState(false);
 
-  const handleClick = () => {
-    if (selectedSeats.length > 0) {
-      setError(false);
-      alert("selected the following seats: " + selectedSeats);
-    } else {
-      setError(true);
-    }
-  };
+  const handleClick = useCallback(() => history.push("/confirm"), [history]);
 
   return (
     <div className="shadow-md p-4 space-y-4">
@@ -123,7 +118,14 @@ function SeatsInput({
       </p>
       <button
         className="border border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white px-4 py-2 rounded font-semibold hover:shadow-md hover:shadow-sky-300"
-        onClick={handleClick}
+        onClick={() => {
+          if (selectedSeats.length > 0) {
+            setError(false);
+            handleClick();
+          } else {
+            setError(true);
+          }
+        }}
       >
         Add Seats
       </button>
@@ -131,10 +133,9 @@ function SeatsInput({
   );
 }
 
-function SelectSeats({ roomID, showingID }) {
+function SelectSeats({ roomID, showingID, selectedSeats, setSelectedSeats }) {
   const [capacity, setCapacity] = useState(0);
   const [imax, setIMAX] = useState(false);
-  const [selectedSeats, setSelectedSeats] = useState([]);
 
   useEffect(() => {
     axios

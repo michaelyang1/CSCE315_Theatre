@@ -7,15 +7,18 @@ import DeleteMovie from "./routes/DeleteMovie";
 import SelectSeats from "./routes/SelectSeats";
 import SelectUsers from "./routes/SelectUsers";
 import CreateReview from "./routes/CreateReview";
+import ConfirmTicket from "./routes/ConfirmTicket";
 import axios from "axios";
 import { useState } from "react";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
 function App() {
+  const [user, setUser] = useState(4);
   const [movie, setMovie] = useState(0);
   const [showing, setShowing] = useState(0);
   const [room, setRoom] = useState(0);
+  const [seats, setSeats] = useState([]);
 
   return (
     <Router>
@@ -41,13 +44,26 @@ function App() {
             <DeleteMovie />
           </Route>
           <Route exact path="/seats">
-            <SelectSeats roomID={room} showingID={showing} />
+            <SelectSeats
+              roomID={room}
+              showingID={showing}
+              selectedSeats={seats}
+              setSelectedSeats={setSeats}
+            />
           </Route>
           <Route exact path="/users">
             <SelectUsers />
           </Route>
           <Route exact path="/reviews">
             <CreateReview />
+          </Route>
+          <Route exact path="/confirm">
+            <ConfirmTicket
+              userID={user}
+              movieID={movie}
+              showingID={showing}
+              seatIDS={seats}
+            />
           </Route>
           <Route path="/">
             <Link to="/movies">
@@ -79,6 +95,11 @@ function App() {
             <Link to="/reviews">
               <h1 className="text-4xl hover:text-yellow-200">
                 Create Reviews View
+              </h1>
+            </Link>
+            <Link to="/confirm">
+              <h1 className="text-4xl hover:text-emerald-500">
+                Confirm Ticket View
               </h1>
             </Link>
           </Route>
