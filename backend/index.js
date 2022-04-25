@@ -303,7 +303,7 @@ app.post("/records", (req, res) => {
     if (error) {
       throw error;
     }
-    res.send(results);
+    res.send(results)
   });
 });
 
@@ -384,7 +384,7 @@ app.delete("/reviews", (req, res) => {
     if(error) {
       throw error;
     }
-    res.send(results);
+    res.send(results)
   });
 });
 
