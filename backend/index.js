@@ -7,6 +7,7 @@ const app = express();
 const port = 5914;
 
 app.use(cors());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // info used to establish database connection

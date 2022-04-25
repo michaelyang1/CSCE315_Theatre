@@ -1,7 +1,7 @@
 function MovieCard({ name, length, genre, desc, image, ...props }) {
   return (
     <div
-      className="w-52 max-w-xs shadow-md hover:bg-slate-100 flex flex-col flex-grow cursor-pointer"
+      className="w-56 max-w-xs shadow-md hover:bg-slate-100 flex flex-col flex-grow cursor-pointer"
       {...props}
     >
       <img
