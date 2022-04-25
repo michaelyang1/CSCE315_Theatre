@@ -20,8 +20,10 @@ var connection = mysql.createConnection({
 // connect to the database
 connection.connect();
 
+// GET METHODS
 app.get("/movies", (req, res) => {
-  connection.query("SELECT * FROM movies", (error, results) => {
+  const query = "select * from movies";
+  connection.query(query, (error, results) => {
     if (error) {
       throw error;
     }
@@ -30,67 +32,46 @@ app.get("/movies", (req, res) => {
 });
 
 app.get("/rooms", (req, res) => {
-  let id = req.query.room;
+  const id = req.query.room;
 
-  connection.query(
-    "select * from rooms where Room_ID = ?",
-    [id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
+  const query = "select * from rooms where Room_ID = ?";
+  connection.query(query, [id], (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    res.send(results);
+  });
 });
 
 app.get("/seats", (req, res) => {
-  let id = req.query.showing;
+  const id = req.query.showing;
 
-  connection.query(
-    "select seats.Seat_ID, Type, case when showings.Showing_ID = tickets.Showing_ID then 1 else 0 end as Reserved from seats inner join showings on seats.Room_ID = showings.Room_ID left outer join tickets on seats.Seat_ID = tickets.Seat_ID where showings.Showing_ID = ?",
-    [id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
+  const query =
+    "select seats.Seat_ID, Type, case when showings.Showing_ID = tickets.Showing_ID then 1 else 0 end as Reserved from seats inner join showings on seats.Room_ID = showings.Room_ID left outer join tickets on seats.Seat_ID = tickets.Seat_ID where showings.Showing_ID = ?";
+  connection.query(query, [id], (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
-});
-
-app.get("/reserved-seats-i-guess", (req, res) => {
-  let id = req.query.showing;
-
-  connection.query(
-    "select Seat_ID from showings inner join tickets on showings.Showing_ID = tickets.Showing_ID where showings.Showing_ID = ?",
-    [id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
-    }
-  );
+    res.send(results);
+  });
 });
 
 app.get("/showings", (req, res) => {
-  let id = req.query.movie;
+  const id = req.query.movie;
 
-  connection.query(
-    "select Showing_ID, showings.Room_ID, Name, Image_URL, Date_Time, IMAX from showings inner join movies on movies.Movie_ID = showings.Movie_ID inner join rooms on showings.Room_ID = rooms.Room_ID where showings.Movie_ID = ? order by Showing_ID",
-    [id],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
+  const query =
+    "select Showing_ID, showings.Room_ID, Name, Image_URL, Date_Time, IMAX from showings inner join movies on movies.Movie_ID = showings.Movie_ID inner join rooms on showings.Room_ID = rooms.Room_ID where showings.Movie_ID = ? order by Showing_ID";
+  connection.query(query, [id], (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    res.send(results);
+  });
 });
 
 app.get("/reviews", (req, res) => {
-  connection.query("SELECT * FROM theater_reviews", (error, results) => {
+  const query = "select * from theater_reviews";
+  connection.query(query, (error, results) => {
     if (error) {
       throw error;
     }
@@ -99,7 +80,8 @@ app.get("/reviews", (req, res) => {
 });
 
 app.get("/tickets", (req, res) => {
-  connection.query("SELECT * FROM tickets", (error, results) => {
+  const query = "select * from tickets";
+  connection.query(query, (error, results) => {
     if (error) {
       throw error;
     }
@@ -108,7 +90,8 @@ app.get("/tickets", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  connection.query("SELECT * FROM users", (error, results) => {
+  const query = "select * from users";
+  connection.query(query, (error, results) => {
     if (error) {
       throw error;
     }
@@ -117,7 +100,179 @@ app.get("/users", (req, res) => {
 });
 
 app.get("/records", (req, res) => {
-  connection.query("SELECT * FROM viewing_record", (error, results) => {
+  const query = "select * from viewing_record";
+  connection.query(query, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+// POST REQUESTS
+app.post("/movies", (req, res) => {
+  const name = req.body.name;
+  const length = req.body.length;
+  const genre = req.body.genre;
+  const desc = req.body.desc;
+  const imageURL = req.body.imageURL;
+
+  if (
+    name == undefined ||
+    length == undefined ||
+    genre == undefined ||
+    desc == undefined ||
+    imageURL == undefined
+  ) {
+    throw "Invalid movie request";
+  }
+
+  const query = "insert into movies values (default, ?, ?, ?, ?, ?)";
+  connection.query(
+    query,
+    [name, length, genre, desc, imageURL],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    }
+  );
+});
+
+app.post("/seats", (req, res) => {
+  const seatID = req.body.seatID;
+  const roomID = req.body.roomID;
+  const seatType = req.body.seatType;
+
+  if (seatID == undefined || roomID == undefined || seatType == undefined) {
+    throw "Invalid seat request";
+  }
+
+  const query = "insert into seats values (?, ?, ?)";
+  connection.query(query, [seatID, roomID, seatType], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.post("/showings", (req, res) => {
+  const movieID = req.body.movieID;
+  const roomID = req.body.roomID;
+  const time = req.body.time;
+
+  if (movieID == undefined || roomID == undefined || time == undefined) {
+    throw "Invalid showings request";
+  }
+
+  const query = "insert into showings values (default, ?, ?, ?)";
+  connection.query(query, [movieID, roomID, time], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.post("/reviews", (req, res) => {
+  const userID = req.body.userID;
+  const rating = req.body.rating;
+  const review = req.body.review;
+  const time = req.body.time;
+
+  if (
+    userID == undefined ||
+    rating == undefined ||
+    review == undefined ||
+    time == undefined
+  ) {
+    throw "Invalid reviews request";
+  }
+
+  const query = "insert into theater_reviews values (default, ?, ?, ?, ?)";
+  connection.query(query, [userID, rating, review, time], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.post("/tickets", (req, res) => {
+  const seatID = req.body.seatID;
+  const userID = req.body.userID;
+  const showingID = req.body.showingID;
+
+  if (seatID == null || userID == null || showingID == null) {
+    throw "Invalid tickets request";
+  }
+
+  const query = "insert into tickets values (default, ?, ?, ?)";
+  connection.query(query, [seatID, userID, showingID], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.post("/users", (req, res) => {
+  const adminStatus = req.body.adminStatus;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const favoriteMovie = req.body.favoriteMovie;
+  const favoriteRoom = req.body.favoriteRoom;
+  const phoneNumber = req.body.phoneNumber;
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (
+    adminStatus == null ||
+    firstName == null ||
+    lastName == null ||
+    favoriteMovie == null ||
+    favoriteRoom == null ||
+    phoneNumber == null ||
+    username == null ||
+    password == null
+  ) {
+    throw "Invalid users request";
+  }
+
+  const query = "insert into users values (default, ?, ?, ?, ?, ?, ?, ?, ?)";
+  connection.query(
+    query,
+    [
+      adminStatus,
+      firstName,
+      lastName,
+      favoriteMovie,
+      favoriteRoom,
+      phoneNumber,
+      username,
+      password,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    }
+  );
+});
+
+app.post("/records", (req, res) => {
+  const userID = req.body.userID;
+  const showingID = req.body.showingID;
+
+  if (userID == null || showingID == null) {
+    throw "Invalid records request";
+  }
+
+  const query = "insert into viewing_record values (default, ?, ?)";
+  connection.query(query, [userID, showingID], (error, results) => {
     if (error) {
       throw error;
     }
