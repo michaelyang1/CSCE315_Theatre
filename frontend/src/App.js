@@ -61,42 +61,35 @@ function App() {
             <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
           </Route>
           <Route path="/">
-            <Link to="/movies">
-              <h1 className="text-4xl hover:text-pink-700">Movies View</h1>
-            </Link>
-            <Link to="/showings">
-              <h1 className="text-4xl hover:text-purple-700">Showings View</h1>
-            </Link>
-            <Link to="/create">
-              <h1 className="text-4xl hover:text-amber-500">
-                Create Movies View
-              </h1>
-            </Link>
-            <Link to="/delete">
-              <h1 className="text-4xl hover:text-lime-500">
-                Delete Movies View
-              </h1>
-            </Link>
-            <Link to="/seats">
-              <h1 className="text-4xl hover:text-cyan-500">
-                Select Seats View
-              </h1>
-            </Link>
-            <Link to="/users">
-              <h1 className="text-4xl hover:text-pink-500">
-                Select Users View
-              </h1>
-            </Link>
-            <Link to="/reviews">
-              <h1 className="text-4xl hover:text-yellow-200">
-                Create Reviews View
-              </h1>
-            </Link>
-            <Link to="/confirm">
-              <h1 className="text-4xl hover:text-emerald-500">
-                Confirm Ticket View
-              </h1>
-            </Link>
+            <div className="flex gap-8 font-thin">
+              <div>
+                <Link to="/movies">
+                  <h1 className="text-4xl hover:text-pink-500">Select Movie</h1>
+                </Link>
+                <Link to="/create">
+                  <h1 className="text-4xl hover:text-orange-300">
+                    Create Movie
+                  </h1>
+                </Link>
+                <Link to="/delete">
+                  <h1 className="text-4xl hover:text-lime-500">Delete Movie</h1>
+                </Link>
+              </div>
+              <div>
+                <Link to="/users">
+                  <h1 className="text-4xl hover:text-purple-600">
+                    Select User
+                  </h1>
+                </Link>
+              </div>
+              <div>
+                <Link to="/reviews">
+                  <h1 className="text-4xl hover:text-yellow-400">
+                    Create Review
+                  </h1>
+                </Link>
+              </div>
+            </div>
           </Route>
         </Switch>
       </div>
