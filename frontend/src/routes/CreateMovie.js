@@ -1,9 +1,19 @@
 import { useState } from "react";
 import MovieCard from "../components/MovieCard";
+import axios from "axios";
 
-function Field({ value, setValue, placeholder, label, id, type = "text" }) {
-  const className =
-    "w-full bg-gray-100 border invalid:border-red-500 border-gray-100 focus:bg-white outline-none p-2 rounded focus:border-gray-400";
+function Field({
+  value,
+  setValue,
+  success,
+  placeholder,
+  label,
+  id,
+  type = "text",
+}) {
+  const className = `w-full bg-gray-100 border  ${
+    success ? "border-emerald-500" : "invalid:border-red-500"
+  } border-gray-100 focus:bg-white outline-none p-2 rounded focus:border-gray-400`;
 
   return (
     <>
@@ -47,6 +57,7 @@ function MovieInput({
   setImageURL,
 }) {
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -61,9 +72,25 @@ function MovieInput({
       setError(true);
     } else {
       setError(false);
-      alert(
-        `pretend the following data was submitted: ${name}, ${length}, ${genre}, ${description}, ${imageURL}`
-      );
+
+      axios
+        .post("/movies", {
+          name: name,
+          length: length,
+          genre: genre,
+          desc: description,
+          imageURL: imageURL,
+        })
+        .then(() => {
+          setSuccess(true);
+          setTimeout(() => setSuccess(false), 5000);
+
+          setName("");
+          setLength("");
+          setGenre("");
+          setDescription("");
+          setImageURL("");
+        });
     }
   };
 
@@ -78,6 +105,7 @@ function MovieInput({
           <Field
             value={name}
             setValue={setName}
+            success={success}
             placeholder="Inception"
             label="Name"
             id="name"
@@ -87,6 +115,7 @@ function MovieInput({
           <Field
             value={length}
             setValue={setLength}
+            success={success}
             placeholder="123"
             label="Length"
             id="length"
@@ -97,6 +126,7 @@ function MovieInput({
           <Field
             value={genre}
             setValue={setGenre}
+            success={success}
             placeholder="Action"
             label="Genre"
             id="genre"
@@ -107,6 +137,7 @@ function MovieInput({
         <Field
           value={description}
           setValue={setDescription}
+          success={success}
           placeholder="Enter a description for the movie here."
           label="Description"
           id="description"
@@ -117,6 +148,7 @@ function MovieInput({
         <Field
           value={imageURL}
           setValue={setImageURL}
+          success={success}
           placeholder="https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg"
           label="Image URL"
           id="imageURL"
@@ -125,10 +157,17 @@ function MovieInput({
       <p className={`${error ? "" : "hidden"} text-red-500 text-sm italic`}>
         You cannot submit until all fields are filled.
       </p>
+      <p
+        className={`${
+          success ? "" : "hidden"
+        } text-emerald-500 text-sm italic transition ease-in-out duration-300`}
+      >
+        Sucessfully created movie!
+      </p>
       <input
         type="submit"
         value="Add Movie"
-        className="border text-rose-500 border-rose-500 hover:text-white hover:bg-rose-500 px-4 py-2 font-semibold rounded"
+        className="border text-rose-500 border-rose-500 hover:text-white hover:bg-rose-500 hover:shadow-md hover:shadow-rose-300 px-4 py-2 font-semibold rounded"
       />
     </form>
   );

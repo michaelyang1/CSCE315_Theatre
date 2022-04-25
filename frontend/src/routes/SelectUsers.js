@@ -31,7 +31,7 @@ function UserCard({ admin, firstName, lastName, phoneNumber, username }) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:flex gap-4 hidden">
         <RiFilePaper2Line
           className="w-6 h-auto"
-          onClick={() => alert("reviews")}
+          onClick={() => alert("profile")}
         />
         {!admin && (
           <>

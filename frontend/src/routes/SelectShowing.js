@@ -2,14 +2,14 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-function ShowingInfo({ name, image_url, date_time, imax, ...props }) {
-  const date = new Date(date_time);
+function ShowingInfo({ name, imageURL, dateTime, imax, ...props }) {
+  const date = new Date(dateTime);
   return (
     <div
       className="flex h-48 shadow-md hover:bg-slate-100 cursor-pointer"
       {...props}
     >
-      <img src={image_url} alt={name} />
+      <img src={imageURL} alt={name} />
       <div className="m-4 space-y-2 relative">
         <h1 className="text-4xl">{name}</h1>
         <h2 className="text-3xl font-light">
@@ -32,7 +32,7 @@ function ShowingInfo({ name, image_url, date_time, imax, ...props }) {
   );
 }
 
-function ShowingGrid({ movie_id, setRoom }) {
+function ShowingGrid({ movieID, setShowing, setRoom }) {
   const history = useHistory();
   const handleClick = useCallback(() => history.push("/seats"), [history]);
 
@@ -43,21 +43,23 @@ function ShowingGrid({ movie_id, setRoom }) {
     axios
       .get("/showings", {
         params: {
-          movie: movie_id,
+          movie: movieID,
         },
       })
       .then((res) => setShowings(res.data));
-  }, [movie_id]);
+  }, [movieID]);
 
   return (
     <div className="flex flex-wrap gap-4">
       {showings.map((showing) => (
         <ShowingInfo
+          key={showing.Showing_ID}
           name={showing.Name}
-          image_url={showing.Image_URL}
-          date_time={showing.Date_Time}
+          imageURL={showing.Image_URL}
+          dateTime={showing.Date_Time}
           imax={showing.IMAX}
           onClick={() => {
+            setShowing(showing.Showing_ID);
             setRoom(showing.Room_ID);
             handleClick();
           }}
@@ -67,11 +69,15 @@ function ShowingGrid({ movie_id, setRoom }) {
   );
 }
 
-function SelectShowing({ movie_id, setRoom }) {
+function SelectShowing({ movieID, setShowing, setRoom }) {
   return (
     <div>
       <h1 className="text-3xl mb-4 uppercase font-thin">Select Showing</h1>
-      <ShowingGrid movie_id={movie_id} setRoom={setRoom} />
+      <ShowingGrid
+        movieID={movieID}
+        setShowing={setShowing}
+        setRoom={setRoom}
+      />
     </div>
   );
 }

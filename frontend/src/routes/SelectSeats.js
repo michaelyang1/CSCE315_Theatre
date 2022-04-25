@@ -1,34 +1,23 @@
 import { MdEventSeat } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-function Seat({ num, setSelectedSeats, active }) {
-  const [hover, setHover] = useState(false);
-  const [selected, setSelected] = useState(false);
-
+function Seat({ num, selectedSeats, setSelectedSeats, active }) {
   return (
     <div className="w-12">
       <MdEventSeat
-        color={`${
+        className={`w-full h-full cursor-pointer fill-neutral-500 ${
           active
-            ? selected
-              ? "#0ea5e9"
-              : hover
-              ? "#22c55e"
-              : "#9ca3af"
-            : "black"
+            ? selectedSeats.includes(num)
+              ? "!fill-sky-500"
+              : "hover:fill-green-500"
+            : "fill-black pointer-events-none"
         }`}
-        className={`w-full h-full cursor-pointer ${
-          active ? "" : "pointer-events-none"
-        }`}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
         onClick={() => {
-          if (!selected) {
-            setSelected(true);
+          if (!selectedSeats.includes(num)) {
             setSelectedSeats((selectedSeats) => [...selectedSeats, num]);
           } else {
-            setSelected(false);
             setSelectedSeats((selectedSeats) =>
               selectedSeats.filter((selectedSeat) => selectedSeat !== num)
             );
@@ -50,23 +39,40 @@ function RoomInfo({ capacity, imax }) {
   );
 }
 
-function SeatGrid({ room_id, capacity, setSelectedSeats }) {
+function SeatGrid({
+  roomID,
+  showingID,
+  capacity,
+  selectedSeats,
+  setSelectedSeats,
+}) {
   const [seats, setSeats] = useState([]);
 
   useEffect(() => {
-    axios.get("/seats").then((res) => setSeats(res.data));
-  }, []);
+    axios
+      .get("/seats", {
+        params: {
+          showing: showingID,
+        },
+      })
+      .then((res) => {
+        setSeats(res.data);
+      });
+  }, [showingID]);
 
   return (
     <div className="grid grid-cols-8 grid-gap-4">
       {[...Array(capacity)].map((_val, index) => {
-        let seat_num = room_id + index + 1;
+        let seat_num = roomID + index + 1;
         return (
           <Seat
             key={seat_num}
             num={seat_num}
+            selectedSeats={selectedSeats}
             setSelectedSeats={setSelectedSeats}
-            active={seats.some((seat) => seat.Seat_ID === seat_num)}
+            active={seats.some(
+              (seat) => seat.Seat_ID === seat_num && !seat.Reserved
+            )}
           />
         );
       })}
@@ -88,38 +94,42 @@ function SelectedSeats({ selectedSeats }) {
 }
 
 function SeatsInput({
-  room_id,
+  roomID,
+  showingID,
   capacity,
   imax,
   selectedSeats,
   setSelectedSeats,
 }) {
+  const history = useHistory();
   const [error, setError] = useState(false);
 
-  const handleClick = () => {
-    if (selectedSeats.length > 0) {
-      setError(false);
-      alert("selected the following seats: " + selectedSeats);
-    } else {
-      setError(true);
-    }
-  };
+  const handleClick = useCallback(() => history.push("/confirm"), [history]);
 
   return (
     <div className="shadow-md p-4 space-y-4">
       <RoomInfo capacity={capacity} imax={imax} />
       <SeatGrid
-        room_id={room_id}
+        roomID={roomID}
+        showingID={showingID}
         capacity={capacity}
         imax={imax}
+        selectedSeats={selectedSeats}
         setSelectedSeats={setSelectedSeats}
       />
       <p className={`${error ? "" : "hidden"} text-red-500 text-sm italic`}>
         You must select at least one seat.
       </p>
       <button
-        className="border border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white px-4 py-2 rounded font-semibold"
-        onClick={handleClick}
+        className="border border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white px-4 py-2 rounded font-semibold hover:shadow-md hover:shadow-sky-300"
+        onClick={() => {
+          if (selectedSeats.length > 0) {
+            setError(false);
+            handleClick();
+          } else {
+            setError(true);
+          }
+        }}
       >
         Add Seats
       </button>
@@ -127,23 +137,26 @@ function SeatsInput({
   );
 }
 
-function SelectSeats({ room_id }) {
+function SelectSeats({ roomID, showingID, selectedSeats, setSelectedSeats }) {
   const [capacity, setCapacity] = useState(0);
   const [imax, setIMAX] = useState(false);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  useEffect(() => {
+    setSelectedSeats([]);
+  }, [setSelectedSeats]);
 
   useEffect(() => {
     axios
       .get("/rooms", {
         params: {
-          room: room_id,
+          room: roomID,
         },
       })
       .then((res) => {
         setCapacity(res.data[0].Capacity);
         setIMAX(res.data[0].IMAX);
       });
-  }, [room_id]);
+  }, [roomID]);
 
   return (
     <div className="flex justify-center">
@@ -152,7 +165,8 @@ function SelectSeats({ room_id }) {
         <div className="flex items-start gap-4">
           <div className="flex-grow">
             <SeatsInput
-              room_id={room_id}
+              roomID={roomID}
+              showingID={showingID}
               capacity={capacity}
               imax={imax}
               selectedSeats={selectedSeats}
