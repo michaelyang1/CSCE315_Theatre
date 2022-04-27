@@ -1,57 +1,63 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import MovieCard from "../components/MovieCard";
 
-function MovieCard({ name, length, genre, desc, image }) {
-  return (
-    <div
-      className="w-52 shadow-md hover:bg-slate-100 flex flex-col cursor-pointer"
-      onClick={() => window.alert("selected " + name)}
-    >
-      <img src={image} alt={name} />
-      <div className="flex flex-col flex-1 justify-between p-2">
-        <div>
-          <h1 className="text-lg font-semibold">{name}</h1>
-          <p className="text-sm">{desc}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="italic">{genre}</p>
-          <p className="font-semibold">{length} min</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+function MovieGrid({ setMovie, search }) {
+  const history = useHistory();
+  const handleClick = useCallback(() => history.push("/showings"), [history]);
 
-function MovieGrid() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    axios.get("/movies").then((res) => {
-      setMovies(res.data);
-    });
+    axios.get("/movies").then((res) => setMovies(res.data));
   }, []);
 
   return (
-    <div className="flex flex-1 flex-wrap gap-4">
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie.Movie_ID}
-          name={movie.Name}
-          length={movie.Length}
-          genre={movie.Primary_Genre}
-          desc={movie.Description}
-          image={movie.Image_URL}
-        />
-      ))}
+    <div className="flex flex-wrap gap-4">
+      {movies
+        .filter((movie) =>
+          movie.Name.toLowerCase().includes(search.toLowerCase())
+        )
+        .map((movie) => (
+          <MovieCard
+            key={movie.Movie_ID}
+            name={movie.Name}
+            length={movie.Length}
+            genre={movie.Primary_Genre}
+            desc={movie.Description}
+            image={movie.Image_URL}
+            onClick={() => {
+              setMovie(movie.Movie_ID);
+              handleClick();
+            }}
+          />
+        ))}
     </div>
   );
 }
 
-function SelectMovie() {
+function SearchBar({ search, setSearch }) {
+  return (
+    <input
+      type="text"
+      value={search}
+      placeholder="Search"
+      onChange={(e) => setSearch(e.target.value)}
+      className="bg-gray-100 focus:bg-white outline-none p-2 rounded border border-gray-100 focus:border-gray-400 w-1/6"
+    />
+  );
+}
+
+function SelectMovie({ setMovie }) {
+  const [search, setSearch] = useState("");
   return (
     <div>
-      <h1 className="text-3xl mb-4 uppercase font-thin">Select Movie</h1>
-      <MovieGrid />
+      <div className="flex justify-between mb-4">
+        <h1 className="text-3xl uppercase font-thin">Select Movie</h1>
+        <SearchBar search={search} setSearch={setSearch} />
+      </div>
+      <MovieGrid setMovie={setMovie} search={search} />
     </div>
   );
 }

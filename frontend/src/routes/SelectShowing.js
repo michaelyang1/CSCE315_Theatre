@@ -1,12 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
-function ShowingInfo({ name, image_url, date_time }) {
-  const date = new Date(date_time);
+function ShowingInfo({ name, imageURL, dateTime, imax, ...props }) {
+  const date = new Date(dateTime);
   return (
-    <div className="flex h-48 shadow-md hover:bg-slate-100">
-      <img src={image_url} alt={name} />
-      <div className="m-4 space-y-2">
+    <div
+      className="flex h-48 shadow-md hover:bg-slate-100 cursor-pointer"
+      {...props}
+    >
+      <img src={imageURL} alt={name} />
+      <div className="m-4 space-y-2 relative">
         <h1 className="text-4xl">{name}</h1>
         <h2 className="text-3xl font-light">
           {date.toLocaleString("default", {
@@ -16,77 +20,66 @@ function ShowingInfo({ name, image_url, date_time }) {
             minute: "numeric",
           })}
         </h2>
+        <p
+          className={`${
+            imax ? "" : "hidden"
+          } bg-orange-400 px-2 py-1 rounded font-bold absolute bottom-0 right-0`}
+        >
+          IMAX
+        </p>
       </div>
     </div>
   );
 }
 
-/*
-function ShowingGrid({ movie }) {
+function ShowingGrid({ movieID, setShowing, setRoom }) {
+  const history = useHistory();
+  const handleClick = useCallback(() => history.push("/seats"), [history]);
+
   const [showings, setShowings] = useState([]);
 
   useEffect(() => {
+    console.log("sending api request");
     axios
       .get("/showings", {
         params: {
-          movie: movie.Movie_ID,
+          movie: movieID,
         },
       })
-      .then((res) => {
-        setShowings(res.data);
-      });
-  }, [movie]);
+      .then((res) => setShowings(res.data));
+  }, [movieID]);
 
   return (
-    <div className="flex flex-1 flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4">
       {showings.map((showing) => (
-        <ShowingInfo movie={movie} date_time={showing.Date_Time} />
-      ))}
-    </div>
-  );
-}
-*/
-
-
-function ShowingGrid() {
-  const [showings, setShowings] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("/showings").then((res) => {
-        setShowings(res.data);
-      });
-  }, []);
-
-  return (
-    <div className="flex flex-1 flex-wrap gap-4">
-      {showings.map((showing) => (
-        <ShowingInfo name={showing.Name} image_url={showing.Image_URL} date_time={showing.Date_Time} />
+        <ShowingInfo
+          key={showing.Showing_ID}
+          name={showing.Name}
+          imageURL={showing.Image_URL}
+          dateTime={showing.Date_Time}
+          imax={showing.IMAX}
+          onClick={() => {
+            setShowing(showing.Showing_ID);
+            setRoom(showing.Room_ID);
+            handleClick();
+          }}
+        />
       ))}
     </div>
   );
 }
 
-/*
-function SelectShowing({ movie }) {
+function SelectShowing({ movieID, setShowing, setRoom }) {
   return (
     <div>
       <h1 className="text-3xl mb-4 uppercase font-thin">Select Showing</h1>
-      <ShowingGrid movie={movie} />
+      <ShowingGrid
+        movieID={movieID}
+        setShowing={setShowing}
+        setRoom={setRoom}
+      />
     </div>
   );
 }
-*/
-
-function SelectShowing() {
-  return (
-    <div>
-      <h1 className="text-3xl mb-4 uppercase font-thin">Select Showing</h1>
-      <ShowingGrid />
-    </div>
-  );
-}
-
-
 
 export default SelectShowing;

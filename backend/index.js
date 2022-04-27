@@ -34,7 +34,6 @@ app.get("/movies", (req, res) => {
 
 app.get("/rooms", (req, res) => {
   const id = req.query.room;
-
   const query = "SELECT * FROM rooms WHERE Room_ID = ?";
   connection.query(query, [id], (error, results) => {
     if (error) {
