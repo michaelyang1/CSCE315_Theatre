@@ -231,7 +231,7 @@ app.post("/tickets", (req, res) => {
   const userID = req.body.userID;
   const showingID = req.body.showingID;
 
-  if (seatID == null || userID == null || showingID == null) {
+  if (seatID == undefined || userID == undefined || showingID == undefined) {
     throw "Invalid tickets request";
   }
 
@@ -255,14 +255,14 @@ app.post("/users", (req, res) => {
   const password = req.body.password;
 
   if (
-    adminStatus == null ||
-    firstName == null ||
-    lastName == null ||
-    favoriteMovie == null ||
-    favoriteRoom == null ||
-    phoneNumber == null ||
-    username == null ||
-    password == null
+    adminStatus == undefined ||
+    firstName == undefined ||
+    lastName == undefined ||
+    favoriteMovie == undefined ||
+    favoriteRoom == undefined ||
+    phoneNumber == undefined ||
+    username == undefined ||
+    password == undefined
   ) {
     throw "Invalid users request";
   }
@@ -293,7 +293,7 @@ app.post("/records", (req, res) => {
   const userID = req.body.userID;
   const showingID = req.body.showingID;
 
-  if (userID == null || showingID == null) {
+  if (userID == undefined || showingID == undefined) {
     throw "Invalid records request";
   }
 
