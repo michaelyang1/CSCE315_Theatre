@@ -84,7 +84,7 @@ app.get("/temp-showings", (req, res) => {
 });
 
 app.get("/reviews", (req, res) => {
-  const query = "SELECT * FROM theater_reviews";
+  const query = "select * from theater_reviews order by Time_Posted desc";
   connection.query(query, (error, results) => {
     if (error) {
       throw error;

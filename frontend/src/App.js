@@ -55,7 +55,7 @@ function App() {
             <SelectUsers />
           </Route>
           <Route exact path="/reviews">
-            <CreateReview />
+            <CreateReview user={user} />
           </Route>
           <Route exact path="/confirm">
             <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
