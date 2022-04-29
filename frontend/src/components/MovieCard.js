@@ -1,3 +1,5 @@
+
+
 function MovieCard({ name, length, genre, desc, image, ...props }) {
   return (
     <div
