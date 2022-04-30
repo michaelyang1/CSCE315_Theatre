@@ -1,11 +1,14 @@
+// app dependency requirements 
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
 
+// backend server using express.js
 const app = express();
 const port = 5914;
 
+// to use json request body for post methods
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,7 +24,7 @@ var connection = mysql.createConnection({
 // connect to the database
 connection.connect();
 
-// GET METHODS
+// GET METHODS (API methods to retrieve information about our theatre)
 app.get("/movies", (req, res) => {
   const query = "SELECT * FROM movies";
   connection.query(query, (error, results) => {
@@ -84,6 +87,7 @@ app.get("/temp-showings", (req, res) => {
 });
 
 app.get("/reviews", (req, res) => {
+  // retrieve the theatre reviews by latest time
   const query = "select * from theater_reviews order by Time_Posted desc";
   connection.query(query, (error, results) => {
     if (error) {
@@ -109,19 +113,19 @@ app.get("/users", (req, res) => {
   if (id === undefined) {
     const query = "SELECT * FROM users";
     connection.query(query, (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
+    if (error) {
+      throw error;
+    }
+    res.send(results);
     });
   } else {
-    const query = "SELECT * FROM users WHERE User_ID = ?";
-    connection.query(query, [id], (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.send(results);
-    });
+      const query = "SELECT * FROM users WHERE User_ID = ?";
+      connection.query(query, [id], (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.send(results);
+      });
   }
 });
 
@@ -136,27 +140,24 @@ app.get("/records", (req, res) => {
 });
 
 // POST REQUESTS
+// these are the api methods which we use to create new rows (tuples) into the respective tables (dependent on the api routes)
 app.post("/movies", (req, res) => {
+  // retrieve information from the request body (the body names must identically match the json parameter names)
   const name = req.body.name;
   const length = req.body.length;
   const genre = req.body.genre;
   const desc = req.body.desc;
   const imageURL = req.body.imageURL;
 
-  if (
-    name == undefined ||
-    length == undefined ||
-    genre == undefined ||
-    desc == undefined ||
-    imageURL == undefined
-  ) {
+  // if any of the fields are undefined (i.e. not supplied in the request), we throw an error 
+  if (name == undefined || length == undefined || genre == undefined || desc == undefined || imageURL == undefined) {
     throw "Invalid movie request";
   }
 
+  // otherwise, we insert the row into the table
   const query = "INSERT INTO movies VALUES (default, ?, ?, ?, ?, ?)";
-  connection.query(
-    query,
-    [name, length, genre, desc, imageURL],
+  // we use the '?' to prevent sql injection attacks when supplying the query arguments
+  connection.query(query, [name, length, genre, desc, imageURL],
     (error, results) => {
       if (error) {
         throw error;
@@ -208,12 +209,7 @@ app.post("/reviews", (req, res) => {
   const review = req.body.review;
   const time = req.body.time;
 
-  if (
-    userID == undefined ||
-    rating == undefined ||
-    review == undefined ||
-    time == undefined
-  ) {
+  if (userID == undefined || rating == undefined || review == undefined || time == undefined) {
     throw "Invalid reviews request";
   }
 
@@ -254,33 +250,14 @@ app.post("/users", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  if (
-    adminStatus == undefined ||
-    firstName == undefined ||
-    lastName == undefined ||
-    favoriteMovie == undefined ||
-    favoriteRoom == undefined ||
-    phoneNumber == undefined ||
-    username == undefined ||
-    password == undefined
-  ) {
+  if (adminStatus == undefined || firstName == undefined || lastName == undefined || favoriteMovie == undefined || favoriteRoom == undefined || 
+    phoneNumber == undefined || username == undefined || password == undefined) {
     throw "Invalid users request";
   }
 
   const query = "INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?)";
   connection.query(
-    query,
-    [
-      adminStatus,
-      firstName,
-      lastName,
-      favoriteMovie,
-      favoriteRoom,
-      phoneNumber,
-      username,
-      password,
-    ],
-    (error, results) => {
+    query, [adminStatus, firstName,lastName, favoriteMovie, favoriteRoom, phoneNumber, username, password], (error, results) => {
       if (error) {
         throw error;
       }
@@ -307,6 +284,7 @@ app.post("/records", (req, res) => {
 });
 
 // DELETE REQUESTS
+// These are the api methods used to delete rows from table based off select attributes (e.g. id)
 app.delete("/movies", (req, res) => {
   const movie_id = req.body.movieID
 
@@ -425,6 +403,7 @@ app.delete("/records", (req, res) => {
   if(record_id == undefined) {
     throw "Invalid viewing record delete request"
   }
+  
   let query_string = `DELETE FROM viewing_record WHERE Record_ID = ?`
   connection.query(query_string, [record_id], (error, results) => {
     if(error) {
@@ -434,6 +413,8 @@ app.delete("/records", (req, res) => {
   });
 });
 
+
+// start the server on the specified port to listen for requests 
 app.listen(port, () => {
   console.log("started server");
 });
