@@ -113,10 +113,10 @@ app.get("/users", (req, res) => {
   if (id === undefined) {
     const query = "SELECT * FROM users";
     connection.query(query, (error, results) => {
-    if (error) {
-      throw error;
-    }
-    res.send(results);
+      if (error) {
+        throw error;
+      }
+      res.send(results);
     });
   } else {
       const query = "SELECT * FROM users WHERE User_ID = ?";
@@ -157,8 +157,7 @@ app.post("/movies", (req, res) => {
   // otherwise, we insert the row into the table
   const query = "INSERT INTO movies VALUES (default, ?, ?, ?, ?, ?)";
   // we use the '?' to prevent sql injection attacks when supplying the query arguments
-  connection.query(query, [name, length, genre, desc, imageURL],
-    (error, results) => {
+  connection.query(query, [name, length, genre, desc, imageURL], (error, results) => {
       if (error) {
         throw error;
       }
