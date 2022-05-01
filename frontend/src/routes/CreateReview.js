@@ -6,7 +6,6 @@ import { BsStarFill, BsTextCenter } from "react-icons/bs";
 
 
 function ReviewCard({ Star_rating, Review, time }) {
-  console.log(Star_rating);
   return (
     <center>
     <div

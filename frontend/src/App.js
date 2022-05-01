@@ -8,6 +8,7 @@ import SelectSeats from "./routes/SelectSeats";
 import SelectUsers from "./routes/SelectUsers";
 import CreateReview from "./routes/CreateReview";
 import ConfirmTicket from "./routes/ConfirmTicket";
+import CreateRooms from "./routes/CreateRooms";
 import axios from "axios";
 import { useState } from "react";
 
@@ -57,6 +58,9 @@ function App() {
           <Route exact path="/reviews">
             <CreateReview user={user} />
           </Route>
+          <Route exact path="/rooms">
+            <CreateRooms user={user} />
+          </Route>
           <Route exact path="/confirm">
             <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
           </Route>
@@ -89,6 +93,14 @@ function App() {
                   </h1>
                 </Link>
               </div>
+              <div>
+                <Link to="/rooms">
+                  <h1 className="text-4xl hover:text-yellow-400">
+                    Create Room 
+                  </h1>
+                </Link>
+              </div>
+
             </div>
           </Route>
         </Switch>
