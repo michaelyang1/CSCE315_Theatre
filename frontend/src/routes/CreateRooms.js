@@ -73,7 +73,18 @@ function Room() {
               setCapacity("");
               setIMAX("");
           });
+       for (let i=1; i<=Capacity; i++){
+           let Seatnum = parseInt(i) + parseInt(Room_ID);
+           axios.post("/seats", {
+                seatID: Seatnum,
+                roomID: Room_ID,
+                seatType: "" 
+               })
+               .then(() => {
+               });
+        }
     }
+       
   };
   const setIMAXYes = () =>{
       IMAX = 1;
