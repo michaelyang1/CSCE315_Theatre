@@ -1,25 +1,41 @@
 import axios from "axios";
 import { NEWDATE } from "mysql/lib/protocol/constants/types";
 import { useEffect, useState } from "react";
-import { BsStarFill } from "react-icons/bs";
+import { BsStarFill, BsTextCenter } from "react-icons/bs";
 
-function MovieInfo({ name, length, genre, description, imageURL }) {
+
+
+function ReviewCard({ Star_rating, Review, time }) {
+  console.log(Star_rating);
   return (
-    <div className="shadow-md flex">
-      <img src={imageURL} alt={name} />
-      <div className="p-4 flex flex-col justify-between">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-light">{name}</h1>
-          <p>{description}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="italic">{genre}</p>
-          <p className="font-semibold">{length} min</p>
+    <center>
+    <div
+      className="w-200 max-w-xs shadow-md hover:bg-slate-100 flex flex-col flex-grow cursor-pointer"
+    >
+      <div className="flex flex-col flex-1 justify-between p-2">
+        <div>
+          <h1 className="text-lg font-semibold break-words" >
+            {Star_rating} stars
+            {/* <BsStarFill
+              className={`w-4 h-auto transition ease-in-out ${
+                (Star_rating)
+                  ? "fill-amber-300"
+                  : "fill-neutral-200"
+              }`}
+            />
+ */}
+          </h1>
+          <p className="italic">{time ? new Date (time).toLocaleString("default", {month: "2-digit", day: "2-digit", year: "2-digit", hour: "numeric", minute: "numeric"}): "Time..."}</p>
+          <p className="text-sm break-words">
+            {Review ? Review : "Reivew..."}
+          </p>
         </div>
       </div>
     </div>
+    </center>
   );
 }
+
 
 function ReviewList({reload}){
   const [reviews, setReviews] = useState([]);
@@ -28,23 +44,13 @@ function ReviewList({reload}){
       setReviews(res.data);
     });
   }, [reload]);
+  console.log("logging star rating");
+  console.log(reviews.Star_Rating);
   return (
     <div>
       {reviews.map(review => (<ReviewCard Star_rating={review.Star_Rating} Review={review.Review} time={review.Time_Posted}/>))}
     </div>
   )
-
-}
-
-function ReviewCard({ Star_rating, Review, time}) {
-  return (
-    <div>
-      <h1>{Star_rating}</h1>
-      <h1>{Review}</h1>
-      {/* <h1>{new Date (time).toLocaleDateString()}</h1> */}
-      <h1>{new Date (time).toLocaleString("default", {month: "2-digit", day: "2-digit", year: "2-digit", hour: "numeric", minute: "numeric"})}</h1>
-    </div>
-  );
 }
 
 function StarRating({ hover, setHover, rating, setRating }) {
@@ -172,29 +178,6 @@ function Review({ username, verified, user, reload, setReload}) {
   );
 }
 
-/*
-function CreateReview() {
-  return (
-    <div className="flex justify-center">
-      <div className="w-2/5 flex flex-col gap-4">
-        <h1 className="text-3xl uppercase font-thin">Create Review</h1>
-        <MovieInfo
-          name={"Inception"}
-          length={333}
-          genre={"Action"}
-          description={
-            "Sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep sleep."
-          }
-          imageURL={
-            "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg"
-          }
-        />
-        <Review username={"Donuts"} verified={true} />
-      </div>
-    </div>
-  );
-}
-*/
 
 function CreateReview({user}) {
   const [reload, setReload] = useState(false);
