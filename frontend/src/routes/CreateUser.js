@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import "./CreateUser.css";
 import ToggleButton from "../components/ToggleButton";
+import axios from "axios";
  
 
 function CreateUser() {
@@ -14,6 +15,8 @@ function CreateUser() {
    const [favMov, setfavMov] = useState('');
   const [favRoom, setfavRoom] = useState('');
   const [phoneNum, setphoneNum] = useState('');  
+  const [adminStat, setAdminStat] = useState(0);  
+  const [success, setSuccess] = useState(false);
 
   const Checked = () => <>⚙</>;
   const UnChecked = () => <>🎞</>;
@@ -55,13 +58,41 @@ function CreateUser() {
   // Handling the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (fName === '' || username === '' || password === '') {
+    if (fName === '' || username === '' || password === ''||lName === '' || phoneNum === '' || favMov === ''|| favRoom === '' ) {
       setError(true);
     } else {
       setSubmitted(true);
       setError(false);
     }
-  };
+
+
+    axios
+        .post("/users", {
+          adminStatus: adminStat,
+          firstName: fName,
+          lastName: lName,
+          favoriteMovie: favMov,
+          favoriteRoom: favRoom,
+          phoneNumber: phoneNum,
+          username: username,
+          password: password
+        })
+        .then(() => {
+          setSuccess(true);
+          setTimeout(() => setSuccess(false), 5000);
+
+          setFName("");
+          setLName("");
+          setfavMov("");
+          setfavRoom("");
+          setusername("");
+          setPassword("");
+          setphoneNum("");
+          setAdminStat(0);
+        });
+    }
+
+
  
   // Showing success message
   const successMessage = () => {
@@ -93,8 +124,10 @@ function CreateUser() {
     console.log(state)
     if(state == true){
       setStatus("Admin");
+      setAdminStat(1);
     } else {
       setStatus("User");
+      setAdminStat(0);
     }
     
   }
