@@ -166,6 +166,25 @@ app.post("/movies", (req, res) => {
   );
 });
 
+app.post("/rooms", (req, res) => {
+  const Room_ID = req.body.Room_ID;
+  const Capacity = req.body.Capacity;
+  const IMAX = req.body.IMAX;
+
+  if (Room_ID == undefined || Capacity == undefined || IMAX == undefined) {
+    throw "Invalid reviews request";
+  }
+
+  const query = "INSERT INTO rooms VALUES (?, ?, ?)";
+  connection.query(query, [Room_ID, Capacity, IMAX], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+
+});
+
 app.post("/seats", (req, res) => {
   const seatID = req.body.seatID;
   const roomID = req.body.roomID;
