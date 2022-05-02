@@ -22,7 +22,7 @@ import CreateShowings from "./routes/CreateShowing";
 import ViewProfile from "./routes/ViewProfile";
 import axios from "axios";
 import { useState } from "react";
-import Login from "./routes/login";
+import Login from "./routes/Login";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
