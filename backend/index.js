@@ -25,7 +25,7 @@ var connection = mysql.createConnection({
 connection.connect();
 
 // GET METHODS (API methods to retrieve information about our theatre)
-// Contributed by Anubhav Aryal, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
+// Contributed by Michael Yang, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.get("/movies", (req, res) => {
   const id = req.query.movieID;
 
@@ -48,6 +48,7 @@ app.get("/movies", (req, res) => {
   }
 });
 
+// Contributed by David Erdner
 app.get("/rooms", (req, res) => {
   const id = req.query.room;
 
@@ -70,6 +71,7 @@ app.get("/rooms", (req, res) => {
   }
 });
 
+// Contributed by David Erdner
 app.get("/seats", (req, res) => {
   const id = req.query.showing;
 
@@ -83,6 +85,7 @@ app.get("/seats", (req, res) => {
   });
 });
 
+// Contributed by Anubhav Aryal
 app.get("/showings", (req, res) => {
   const id = req.query.movie;
 
@@ -146,6 +149,7 @@ app.get("/reviews", (req, res) => {
   });
 });
 
+// Contributed by David Erdner
 app.get("/tickets", (req, res) => {
   const id = req.query.id;
   const query = "SELECT * FROM tickets WHERE User_ID=?";
@@ -180,6 +184,7 @@ app.get("/users", (req, res) => {
   }
 });
 
+// Contributed by Anubhav Aryal
 app.get("/records", (req, res) => {
   const query = "SELECT * FROM viewing_record";
   connection.query(query, (error, results) => {
@@ -227,6 +232,7 @@ app.post("/movies", (req, res) => {
   );
 });
 
+// Created by David Erdner
 app.post("/rooms", (req, res) => {
   const Room_ID = req.body.Room_ID;
   const Capacity = req.body.Capacity;
@@ -245,6 +251,7 @@ app.post("/rooms", (req, res) => {
   });
 });
 
+// Created by David Erdner
 app.post("/seats", (req, res) => {
   const roomID = parseInt(req.body.roomID);
   const capacity = req.body.capacity;
@@ -268,6 +275,7 @@ app.post("/seats", (req, res) => {
   });
 });
 
+// Created by Anubhav Aryal 
 app.post("/showings", (req, res) => {
   const movieID = req.body.movieID;
   const roomID = req.body.roomID;
@@ -376,6 +384,7 @@ app.post("/users", (req, res) => {
   );
 });
 
+// Created by Anubhav Aryal
 app.post("/records", (req, res) => {
   const userID = req.body.userID;
   const showingID = req.body.showingID;
@@ -395,6 +404,8 @@ app.post("/records", (req, res) => {
 
 // DELETE REQUESTS
 // These are the api methods used to delete rows from table based off select attributes (e.g. id)
+// Generaly done by same person who created the post method
+
 // Contributed by Michael Yang as part of the Movie Create and Delete feature set (Feature Set 2)
 app.delete("/movies", (req, res) => {
   const movie_id = req.body.movieID;
@@ -663,28 +674,3 @@ app.patch("/rooms", (req, res) => {
     }
   );
 });
-
-/*
-app.patch("/seats", (req, res) => {
-  const roomID = parseInt(req.body.roomID);
-  const capacity = req.body.capacity;
-
-  if (roomID == undefined || capacity == undefined) {
-    throw "Invalid seat request";
-  }
-
-  const query = "INSERT INTO seats (Seat_ID, Room_ID) VALUES ?";
-  const values = [];
-
-  for (let i = 0; i < capacity; i++) {
-    values.push([roomID + i, roomID]);
-  }
-
-  connection.query(query, [values], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    res.send(results);
-  });
-});
-*/

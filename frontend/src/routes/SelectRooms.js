@@ -4,6 +4,7 @@ import { BiPencil } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { useHistory } from "react-router-dom";
 
+// Contributed by David Erdner, as part of the Create/Select Room feature set (Feature Set 4)
 function Room({ id, capacity, imax, setReload }) {
   const navigate = useHistory();
 

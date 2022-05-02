@@ -30,6 +30,8 @@ import EditMovie from "./routes/EditMovie";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
+// Overall app Created by Team: David Erdner, Anubhav Aryal, Michael Yang, Nadxhieli Juarez 
+
 function App() {
   const [user, setUser] = useState(0);
   const [username, setUsername] = useState("");

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { BsStarFill, BsTextCenter } from "react-icons/bs";
 
 // Contributed by David Erdner, as part of the Create Theater Review feature set (Feature Set 4)
+
+// Card for each review
 function ReviewCard({ Star_rating, Review, time }) {
   return (
     <center>
@@ -11,14 +13,6 @@ function ReviewCard({ Star_rating, Review, time }) {
           <div>
             <h1 className="text-lg font-semibold break-words">
               {Star_rating} stars
-              {/* <BsStarFill
-              className={`w-4 h-auto transition ease-in-out ${
-                (Star_rating)
-                  ? "fill-amber-300"
-                  : "fill-neutral-200"
-              }`}
-            />
- */}
             </h1>
             <p className="italic">
               {time
@@ -41,6 +35,7 @@ function ReviewCard({ Star_rating, Review, time }) {
   );
 }
 
+// List out each review
 function ReviewList({ reload }) {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
@@ -61,6 +56,7 @@ function ReviewList({ reload }) {
   );
 }
 
+// Allow user to select rating out of 5 stars
 function StarRating({ hover, setHover, rating, setRating }) {
   return (
     <div className="flex">
@@ -89,6 +85,7 @@ function StarRating({ hover, setHover, rating, setRating }) {
   );
 }
 
+// Review function allows user to create review
 function Review({ username, verified, user, reload, setReload }) {
   const [hover, setHover] = useState(0);
   const [rating, setRating] = useState(0);
@@ -119,9 +116,6 @@ function Review({ username, verified, user, reload, setReload }) {
       setError(true);
     } else {
       setError(false);
-      //alert(
-      //  `pretend to submit this review: ${rating}, ${new Date().toLocaleString()}, ${review}`
-      //);
       axios
         .post("/reviews", {
           userID: 4,
@@ -187,6 +181,7 @@ function Review({ username, verified, user, reload, setReload }) {
   );
 }
 
+// Create review calls individual review function
 function CreateReview({ user, username }) {
   const [reload, setReload] = useState(false);
   return (

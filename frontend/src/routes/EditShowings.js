@@ -4,6 +4,7 @@ import { BiPencil } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { useHistory } from "react-router-dom";
 
+// Contributed by Anubhav Aryal
 function ShowingInfo({ name, id, imageURL, dateTime, imax, setReload }) {
   const date = new Date(dateTime);
 

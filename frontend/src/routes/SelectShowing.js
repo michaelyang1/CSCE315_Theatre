@@ -2,6 +2,10 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+// Contributed by Anubhav Aryal
+
+
+//Allows all showings to be viewed. 
 function ShowingInfo({ name, imageURL, dateTime, imax, ...props }) {
   const date = new Date(dateTime);
   return (
@@ -32,6 +36,7 @@ function ShowingInfo({ name, imageURL, dateTime, imax, ...props }) {
   );
 }
 
+// Turn showing into grid
 function ShowingGrid({ movieID, setShowing, setRoom }) {
   const history = useHistory();
   const handleClick = useCallback(() => history.push("/seats"), [history]);
@@ -69,6 +74,7 @@ function ShowingGrid({ movieID, setShowing, setRoom }) {
   );
 }
 
+// Select showing allows user to select an individual showing. 
 function SelectShowing({ movieID, setShowing, setRoom }) {
   return (
     <div>

@@ -2,6 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+// Contributed by David Erdner
+
+// allows users to view their own profile
 function ViewProfile() {
   const { id } = useParams();
 
@@ -12,11 +15,6 @@ function ViewProfile() {
   const [favoriteMovie, setFavoriteMovie] = useState("");
   const [favoriteRoom, setFavoriteRoom] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  /*
-  const [seatID, setSeatID] = useState(0);
-  const [showingID, setShowingID] = useState(0);
-  const [userID, setUserID] = useState(0);
-  */
   const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
@@ -39,6 +37,7 @@ function ViewProfile() {
       });
   }, [id]);
 
+  // Create way for users to view tickets
   useEffect(() => {
     axios
       .get("/tickets", {
@@ -51,7 +50,6 @@ function ViewProfile() {
       });
   }, [id]);
 
-  console.log();
   return (
     <div className="font-mono">
       <h1 className="text-lg font-semibold break-words">USER INFORMATION:</h1>
