@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { MdOutlineClose } from "react-icons/md";
 
+// Contributed by Michael Yang as part of the Movie Create and Delete feature set (Feature Set 2) 
 function DeletionCard({ key, name, length, genre, desc, image, ...props }) {
   const [hover, setHover] = useState(false);
 
