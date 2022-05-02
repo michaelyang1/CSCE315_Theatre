@@ -111,6 +111,7 @@ app.get("/showings", (req, res) => {
 });
 
 // this is used by UpdateShowing to only receive showing information
+//Contributed by Nadxhieli Juarez
 app.get("/temp-showings2", (req, res) => {
   const id = req.query.showing;
 
@@ -124,6 +125,7 @@ app.get("/temp-showings2", (req, res) => {
 });
 
 // this is used by ConfirmTicket to get all movie/showing information from just showing id
+// Contributed by David Erdner
 app.get("/temp-showings", (req, res) => {
   const id = req.query.showing;
 
@@ -424,7 +426,7 @@ app.delete("/movies", (req, res) => {
     res.send(results);
   });
 });
-
+// Contributed by Michael Yang, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.delete("/rooms", (req, res) => {
   const room_id = req.body.roomID;
 
@@ -440,7 +442,7 @@ app.delete("/rooms", (req, res) => {
     res.send(results);
   });
 });
-
+// Contributed by Michael Yang, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.delete("/seats", (req, res) => {
   const seat_id = req.body.seatID;
 
@@ -456,7 +458,7 @@ app.delete("/seats", (req, res) => {
     res.send(results);
   });
 });
-
+// Contributed by Michael Yang, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.delete("/showings", (req, res) => {
   const showing_id = req.body.showingID;
 
@@ -472,7 +474,7 @@ app.delete("/showings", (req, res) => {
     res.send(results);
   });
 });
-
+// Contributed by Anubhav Aryal
 app.delete("/reviews", (req, res) => {
   const review_id = req.body.reviewID;
 
@@ -488,7 +490,7 @@ app.delete("/reviews", (req, res) => {
     res.send(results);
   });
 });
-
+// Contributed by Anubhav Aryal
 app.delete("/tickets", (req, res) => {
   const ticket_id = req.body.ticketID;
 
@@ -505,7 +507,7 @@ app.delete("/tickets", (req, res) => {
   });
 });
 
-/* */
+// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1)
 app.delete("/users", (req, res) => {
   const user_id = req.body.userID;
 
@@ -521,7 +523,7 @@ app.delete("/users", (req, res) => {
     res.send(results);
   });
 });
-
+// Contributed by Michael Yang, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.delete("/records", (req, res) => {
   const record_id = req.body.recordID;
 
@@ -543,7 +545,7 @@ app.listen(port, () => {
   console.log("started server");
 });
 
-//UPDATES
+// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1)
 app.patch("/users", (req, res) => {
   const adminStatus = req.body.adminStatus;
   const firstName = req.body.firstName;
@@ -593,6 +595,7 @@ app.patch("/users", (req, res) => {
   );
 });
 
+// Contributed by Nadxhieli Juarez 
 app.patch("/movies", (req, res) => {
   // retrieve information from the request body (the body names must identically match the json parameter names)
   const name = req.body.name;
@@ -629,6 +632,7 @@ app.patch("/movies", (req, res) => {
   );
 });
 
+// Contributed by Nadxhieli Juarez 
 app.patch("/showings", (req, res) => {
   const movieID = req.body.movieID;
   const roomID = req.body.roomID;
