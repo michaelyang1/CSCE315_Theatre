@@ -18,6 +18,7 @@ import CreateRooms from "./routes/CreateRooms";
 import CreateUser from "./routes/CreateUser";
 import UpdateMovie from "./routes/UpdateMovie";
 import UpdateUser from "./routes/UpdateUser";
+import CreateShowings from "./routes/CreateShowing";
 import ViewProfile from "./routes/ViewProfile";
 import axios from "axios";
 import { useState } from "react";
@@ -41,6 +42,9 @@ function App() {
           <h1 className="text-4xl font-thin mb-4">The 310 Theatre</h1>
         </Link>
         <Switch>
+          <Route exact path="/createshowings">
+            <CreateShowings />
+          </Route>
           <Route exact path="/movies">
             <SelectMovie setMovie={setMovie} />
           </Route>
@@ -157,6 +161,14 @@ function App() {
                   </h1>
                 </Link>
               </div>
+              <div>
+                <Link to="/createshowings">
+                  <h1 className="text-4xl hover:text-purple-600">
+                    Create Showings 
+                  </h1>
+                </Link>
+              </div>
+
             </div>
           </Route>
         </Switch>
