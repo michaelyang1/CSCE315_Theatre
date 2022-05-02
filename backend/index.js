@@ -1,4 +1,4 @@
-// app dependency requirements 
+// app dependency requirements
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -119,13 +119,13 @@ app.get("/users", (req, res) => {
       res.send(results);
     });
   } else {
-      const query = "SELECT * FROM users WHERE User_ID = ?";
-      connection.query(query, [id], (error, results) => {
-        if (error) {
-          throw error;
-        }
-        res.send(results);
-      });
+    const query = "SELECT * FROM users WHERE User_ID = ?";
+    connection.query(query, [id], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
   }
 });
 
@@ -149,15 +149,24 @@ app.post("/movies", (req, res) => {
   const desc = req.body.desc;
   const imageURL = req.body.imageURL;
 
-  // if any of the fields are undefined (i.e. not supplied in the request), we throw an error 
-  if (name == undefined || length == undefined || genre == undefined || desc == undefined || imageURL == undefined) {
+  // if any of the fields are undefined (i.e. not supplied in the request), we throw an error
+  if (
+    name == undefined ||
+    length == undefined ||
+    genre == undefined ||
+    desc == undefined ||
+    imageURL == undefined
+  ) {
     throw "Invalid movie request";
   }
 
   // otherwise, we insert the row into the table
   const query = "INSERT INTO movies VALUES (default, ?, ?, ?, ?, ?)";
   // we use the '?' to prevent sql injection attacks when supplying the query arguments
-  connection.query(query, [name, length, genre, desc, imageURL], (error, results) => {
+  connection.query(
+    query,
+    [name, length, genre, desc, imageURL],
+    (error, results) => {
       if (error) {
         throw error;
       }
@@ -171,6 +180,8 @@ app.post("/rooms", (req, res) => {
   const Capacity = req.body.Capacity;
   const IMAX = req.body.IMAX;
 
+  console.log("bruh");
+
   if (Room_ID == undefined || Capacity == undefined || IMAX == undefined) {
     throw "Invalid reviews request";
   }
@@ -182,20 +193,24 @@ app.post("/rooms", (req, res) => {
     }
     res.send(results);
   });
-
 });
 
 app.post("/seats", (req, res) => {
-  const seatID = req.body.seatID;
-  const roomID = req.body.roomID;
-  const seatType = req.body.seatType;
+  const roomID = parseInt(req.body.roomID);
+  const capacity = req.body.capacity;
 
-  if (seatID == undefined || roomID == undefined || seatType == undefined) {
+  if (roomID == undefined || capacity == undefined) {
     throw "Invalid seat request";
   }
 
-  const query = "INSERT INTO seats VALUES (?, ?, ?)";
-  connection.query(query, [seatID, roomID, seatType], (error, results) => {
+  const query = "INSERT INTO seats (Seat_ID, Room_ID) VALUES ?";
+  const values = [];
+
+  for (let i = 0; i < capacity; i++) {
+    values.push([roomID + i, roomID]);
+  }
+
+  connection.query(query, [values], (error, results) => {
     if (error) {
       throw error;
     }
@@ -227,7 +242,12 @@ app.post("/reviews", (req, res) => {
   const review = req.body.review;
   const time = req.body.time;
 
-  if (userID == undefined || rating == undefined || review == undefined || time == undefined) {
+  if (
+    userID == undefined ||
+    rating == undefined ||
+    review == undefined ||
+    time == undefined
+  ) {
     throw "Invalid reviews request";
   }
 
@@ -268,14 +288,33 @@ app.post("/users", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  if (adminStatus == undefined || firstName == undefined || lastName == undefined || favoriteMovie == undefined || favoriteRoom == undefined || 
-    phoneNumber == undefined || username == undefined || password == undefined) {
+  if (
+    adminStatus == undefined ||
+    firstName == undefined ||
+    lastName == undefined ||
+    favoriteMovie == undefined ||
+    favoriteRoom == undefined ||
+    phoneNumber == undefined ||
+    username == undefined ||
+    password == undefined
+  ) {
     throw "Invalid users request";
   }
 
   const query = "INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?)";
   connection.query(
-    query, [adminStatus, firstName,lastName, favoriteMovie, favoriteRoom, phoneNumber, username, password], (error, results) => {
+    query,
+    [
+      adminStatus,
+      firstName,
+      lastName,
+      favoriteMovie,
+      favoriteRoom,
+      phoneNumber,
+      username,
+      password,
+    ],
+    (error, results) => {
       if (error) {
         throw error;
       }
@@ -297,22 +336,22 @@ app.post("/records", (req, res) => {
     if (error) {
       throw error;
     }
-    res.send(results)
+    res.send(results);
   });
 });
 
 // DELETE REQUESTS
 // These are the api methods used to delete rows from table based off select attributes (e.g. id)
 app.delete("/movies", (req, res) => {
-  const movie_id = req.body.movieID
+  const movie_id = req.body.movieID;
 
-  if(movie_id == undefined) {
-    throw "Invalid movie delete request"
+  if (movie_id == undefined) {
+    throw "Invalid movie delete request";
   }
 
-  let query_string = `DELETE FROM movies WHERE Movie_ID = ?`
+  let query_string = `DELETE FROM movies WHERE Movie_ID = ?`;
   connection.query(query_string, [movie_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
     res.send(results);
@@ -320,15 +359,15 @@ app.delete("/movies", (req, res) => {
 });
 
 app.delete("/rooms", (req, res) => {
-  const room_id = req.body.roomID
+  const room_id = req.body.roomID;
 
-  if(room_id == undefined) {
-    throw "Invalid room delete request"
+  if (room_id == undefined) {
+    throw "Invalid room delete request";
   }
 
-  let query_string = `DELETE FROM rooms WHERE Room_ID = ?`
+  let query_string = `DELETE FROM rooms WHERE Room_ID = ?`;
   connection.query(query_string, [room_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
     res.send(results);
@@ -336,15 +375,15 @@ app.delete("/rooms", (req, res) => {
 });
 
 app.delete("/seats", (req, res) => {
-  const seat_id = req.body.seatID
+  const seat_id = req.body.seatID;
 
-  if(seat_id == undefined) {
-    throw "Invalid seat delete request"
+  if (seat_id == undefined) {
+    throw "Invalid seat delete request";
   }
 
-  let query_string = `DELETE FROM seats WHERE Seat_ID = ?`
+  let query_string = `DELETE FROM seats WHERE Seat_ID = ?`;
   connection.query(query_string, [seat_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
     res.send(results);
@@ -352,15 +391,15 @@ app.delete("/seats", (req, res) => {
 });
 
 app.delete("/showings", (req, res) => {
-  const showing_id = req.body.showingID
+  const showing_id = req.body.showingID;
 
-  if(showing_id == undefined) {
-    throw "Invalid showing delete request"
+  if (showing_id == undefined) {
+    throw "Invalid showing delete request";
   }
 
-  let query_string = `DELETE FROM showings WHERE Showing_ID = ?`
+  let query_string = `DELETE FROM showings WHERE Showing_ID = ?`;
   connection.query(query_string, [showing_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
     res.send(results);
@@ -368,31 +407,31 @@ app.delete("/showings", (req, res) => {
 });
 
 app.delete("/reviews", (req, res) => {
-  const review_id = req.body.reviewID
+  const review_id = req.body.reviewID;
 
-  if(review_id == undefined) {
-    throw "Invalid review delete request"
+  if (review_id == undefined) {
+    throw "Invalid review delete request";
   }
 
-  let query_string = `DELETE FROM theater_reviews WHERE Review_ID = ?`
+  let query_string = `DELETE FROM theater_reviews WHERE Review_ID = ?`;
   connection.query(query_string, [review_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
-    res.send(results)
+    res.send(results);
   });
 });
 
 app.delete("/tickets", (req, res) => {
-  const ticket_id = req.body.ticketID
+  const ticket_id = req.body.ticketID;
 
-  if(ticket_id == undefined) {
-    throw "Invalid ticket delete request"
+  if (ticket_id == undefined) {
+    throw "Invalid ticket delete request";
   }
 
-  let query_string = `DELETE FROM tickets WHERE Ticket_ID = ?`
+  let query_string = `DELETE FROM tickets WHERE Ticket_ID = ?`;
   connection.query(query_string, [ticket_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
     res.send(results);
@@ -400,15 +439,15 @@ app.delete("/tickets", (req, res) => {
 });
 
 app.delete("/users", (req, res) => {
-  const user_id = req.body.userID
+  const user_id = req.body.userID;
 
-  if(user_id == undefined) {
-    throw "Invalid user delete request"
+  if (user_id == undefined) {
+    throw "Invalid user delete request";
   }
 
-  let query_string = `DELETE FROM users WHERE User_ID = ?`
+  let query_string = `DELETE FROM users WHERE User_ID = ?`;
   connection.query(query_string, [user_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
     res.send(results);
@@ -416,23 +455,22 @@ app.delete("/users", (req, res) => {
 });
 
 app.delete("/records", (req, res) => {
-  const record_id = req.body.recordID
-  
-  if(record_id == undefined) {
-    throw "Invalid viewing record delete request"
+  const record_id = req.body.recordID;
+
+  if (record_id == undefined) {
+    throw "Invalid viewing record delete request";
   }
-  
-  let query_string = `DELETE FROM viewing_record WHERE Record_ID = ?`
+
+  let query_string = `DELETE FROM viewing_record WHERE Record_ID = ?`;
   connection.query(query_string, [record_id], (error, results) => {
-    if(error) {
+    if (error) {
       throw error;
     }
     res.send(results);
   });
 });
 
-
-// start the server on the specified port to listen for requests 
+// start the server on the specified port to listen for requests
 app.listen(port, () => {
   console.log("started server");
 });
