@@ -47,8 +47,6 @@ function ReviewList({ reload }) {
       setReviews(res.data);
     });
   }, [reload]);
-  console.log("logging star rating");
-  console.log(reviews.Star_Rating);
   return (
     <div>
       {reviews.map((review) => (

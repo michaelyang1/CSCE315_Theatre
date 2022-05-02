@@ -54,6 +54,7 @@ export default function Login() {
         navigate.push("/userLanding")
       } else {
         console.log("NOT this is a user")
+        alert("Invalid login, check status, username and password")
       }
     } else {
       var userValid = validateUser(UserName, password,1)
@@ -62,6 +63,7 @@ export default function Login() {
         navigate.push("/adminLanding")
       } else {
         console.log("NOT working, admin")
+        alert("Invalid login, check status, username and password")
       }
     }
   }
