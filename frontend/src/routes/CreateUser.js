@@ -4,14 +4,13 @@ import "./CreateUser.css";
 import ToggleButton from "../components/ToggleButton";
  
 
-function CreateUser({user, setUser})  {
+function CreateUser() {
  
   // States for registration
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
-  
   const Checked = () => <>⚙</>;
   const UnChecked = () => <>🎞</>;
   const [status, setStatus] = useState("User");
@@ -22,12 +21,31 @@ function CreateUser({user, setUser})  {
  
   // Handling the name change
 
-  const handleChange = e => {
-    const{name, value} = e.target;
-    setUser({...setUser, [name]: value});
-    console.log("Form is set to: ", setUser)
-  }
+  const handleChange = (e) => {
+    setFName(e.target.value);
+    setSubmitted(false);
 
+    setusername(e.target.value);
+    setSubmitted(false);
+
+    setPassword(e.target.value);
+    setSubmitted(false);
+  }
+/*   const handleFName = (e) => {
+  };
+ 
+  // Handling the username change
+  const handleUsername = (e) => {
+    setusername(e.target.value);
+    setSubmitted(false);
+  };
+ 
+  // Handling the password change
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setSubmitted(false);
+  }; */
+ 
   // Handling the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,10 +93,10 @@ function CreateUser({user, setUser})  {
     
   }
 
- //form className='form'
+ 
   return (
       <>
-    <div className="formCreateUser">
+    <div className="CreateUser">
         <div>
             <h1>User Registration</h1>
         </div>
@@ -88,21 +106,21 @@ function CreateUser({user, setUser})  {
         {successMessage()}
       </div>
  
-      <form className='form'>
+      <form>
         {/* Labels and inputs for form data */}
         <label className="label">First Name</label>
         <div className='row'>
         <input onChange={handleChange} className="input"
-          value={CreateUser.fName} type="text" />
+          value={fName} type="text" />
         </div>
  
         <label className="label">Username</label>
         <input onChange={handleChange} className="input"
-          value={CreateUser.username} type="username" />
+          value={username} type="username" />
  
         <label className="label">Password</label>
         <input onChange={handleChange} className="input"
-          value={CreateUser.password} type="password" />
+          value={password} type="password" />
 
         <div className='ToggleSection'>
             <h1>{status}</h1>

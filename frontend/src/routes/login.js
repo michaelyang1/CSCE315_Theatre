@@ -16,20 +16,20 @@ export default function Login() {
   const navigate = useHistory();
 
   const [allUsers, setAllUsers] = useState(null);
-    useEffect(() => {
-        fetch('http://localhost:5914/users',{
-        method: "GET"
-      }).then(response => {
-       if (response.type === 'opaque' || response.ok) {
-           response.json().then(item => {
-             //console.log("item is:", item)
-            setAllUsers(item)
-         });
-       } 
-     }).catch(error => {
-       console.log("Error is: ", error)
-     });
-    },[]); 
+  useEffect(() => {
+      fetch('http://localhost:5914/users',{
+      method: "GET"
+    }).then(response => {
+      if (response.type === 'opaque' || response.ok) {
+          response.json().then(item => {
+            //console.log("item is:", item)
+          setAllUsers(item)
+        });
+      } 
+    }).catch(error => {
+      console.log("Error is: ", error)
+    });
+  },[]); 
 
   function validateUser(username, password, adminStatus){
     var userExists = allUsers.map(userObj => {
