@@ -20,7 +20,7 @@ import UpdateMovie from "./routes/UpdateMovie";
 import UpdateUser from "./routes/UpdateUser";
 import axios from "axios";
 import { useState } from "react";
-import Login from "./routes/Login";
+import Login from "./routes/login";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
