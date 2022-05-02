@@ -12,7 +12,7 @@ function ViewProfile() {
   const [favoriteMovie, setFavoriteMovie] = useState("");
   const [favoriteRoom, setFavoriteRoom] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
+  /*obtains the user infomation, and populates the corresponding variables with that user information */
   useEffect(() => {
     axios
       .get("/users", {
@@ -32,7 +32,7 @@ function ViewProfile() {
         setPhoneNumber(user.Phone_Number);
       });
   }, [id]);
-
+/* Displays user information */
   return (
     <div className="font-mono">
       <h1>First Name: {firstName}</h1>
@@ -42,7 +42,6 @@ function ViewProfile() {
       <h1>Favorite Movie: {favoriteMovie}</h1>
       <h1>Favorite Room: {favoriteRoom}</h1>
       <h1>Phone Number: {phoneNumber}</h1>
-      <h1>ID: {id}</h1>
     </div>
   );
 }

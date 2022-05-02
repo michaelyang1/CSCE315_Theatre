@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-
+/*Contributed by Nadxhiei  */
 function UpdateUser() {
   const { id } = useParams();
-
+/*variables to be populated with user data */
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -14,7 +14,7 @@ function UpdateUser() {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const navigate = useHistory();
-
+/*sending our user data */
   useEffect(() => {
     axios
       .get("/users", {
@@ -68,7 +68,7 @@ function UpdateUser() {
         });
     }
   };
-
+/*form that takes in user info to populate variables then send updated info */
   return (
     <div className="flex justify-center">
       <div className="w-1/4">

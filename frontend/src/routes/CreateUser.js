@@ -1,8 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-
+//Contributed by Nadxhieli Juarez as part of user related features
 function CreateUser({ setUser, setDisplayName }) {
+  /*Variables to populate with new user info */
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -26,6 +27,7 @@ function CreateUser({ setUser, setDisplayName }) {
     ) {
       alert("Fill out all fields");
     } else {
+      /*sends the user info and creates a new user on the database */
       axios
         .post("/users", {
           adminStatus: 0,
@@ -47,6 +49,7 @@ function CreateUser({ setUser, setDisplayName }) {
   };
 
   return (
+    /*form used to obtain user info from the user */
     <div className="flex justify-center">
       <div className="w-1/4">
         <h1 className="text-3xl mb-4 uppercase font-thin">Sign Up</h1>

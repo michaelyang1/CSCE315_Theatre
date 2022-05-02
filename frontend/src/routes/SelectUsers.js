@@ -25,8 +25,9 @@ function UserCard({
   const handleEdit = () => {
     navigate.push(`/updateUser/${id}`);
   };
-
+/*Contributed by Nadxhieli Juarez */
   const handleDelete = () => {
+    /*Deletes our user */
     axios
       .delete("/users", {
         data: {

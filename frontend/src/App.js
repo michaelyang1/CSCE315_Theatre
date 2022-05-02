@@ -20,6 +20,7 @@ import UpdateMovie from "./routes/UpdateMovie";
 import UpdateUser from "./routes/UpdateUser";
 import CreateShowings from "./routes/CreateShowing";
 import ViewProfile from "./routes/ViewProfile";
+import DeleteUser from "./routes/DeleteUser";
 import axios from "axios";
 import { useState } from "react";
 import Login from "./routes/login";
@@ -57,6 +58,9 @@ function App() {
           </Route>
           <Route exact path="/createUser">
             <CreateUser setUser={setUser} setDisplayName={setUsername} />
+          </Route>
+          <Route exact path="/deleteUser">
+            <DeleteUser/>
           </Route>
           <Route exact path="/create">
             <CreateMovie />

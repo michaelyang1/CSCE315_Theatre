@@ -460,6 +460,7 @@ app.delete("/tickets", (req, res) => {
   });
 });
 
+/* */
 app.delete("/users", (req, res) => {
   const user_id = req.body.userID;
 
