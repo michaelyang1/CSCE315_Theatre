@@ -25,6 +25,8 @@ import { useState } from "react";
 import Login from "./routes/Login";
 import UpdateRoom from "./routes/UpdateRoom";
 import SelectRooms from "./routes/SelectRooms";
+import EditShowings from "./routes/EditShowings";
+import UpdateShowing from "./routes/UpdateShowing";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
@@ -100,6 +102,12 @@ function App() {
           </Route>
           <Route exact path="/viewProfile/:id">
             <ViewProfile />
+          </Route>
+          <Route exact path="/editShowing">
+            <EditShowings />
+          </Route>
+          <Route exact path="/updateShowing/:id">
+            <UpdateShowing />
           </Route>
 
           <Route exact path="/">
@@ -177,11 +185,17 @@ function App() {
               <div>
                 <Link to="/createshowings">
                   <h1 className="text-4xl hover:text-purple-600">
-                    Create Showings 
+                    Create Showings
                   </h1>
                 </Link>
               </div>
-
+              <div>
+                <Link to="/editShowing">
+                  <h1 className="text-4xl hover:text-purple-600">
+                    Edit Showings
+                  </h1>
+                </Link>
+              </div>
             </div>
           </Route>
         </Switch>

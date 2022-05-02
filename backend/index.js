@@ -86,8 +86,32 @@ app.get("/seats", (req, res) => {
 app.get("/showings", (req, res) => {
   const id = req.query.movie;
 
-  const query =
-    "SELECT Showing_ID, showings.Room_ID, Name, Image_URL, Date_Time, IMAX FROM showings INNER JOIN movies ON movies.Movie_ID = showings.Movie_ID INNER JOIN rooms ON showings.Room_ID = rooms.Room_ID WHERE showings.Movie_ID = ? ORDER BY Showing_ID";
+  if (id === undefined) {
+    const query =
+      "SELECT Showing_ID, showings.Room_ID, Name, Image_URL, Date_Time, IMAX FROM showings INNER JOIN movies ON movies.Movie_ID = showings.Movie_ID INNER JOIN rooms ON showings.Room_ID = rooms.Room_ID ORDER BY Showing_ID";
+    connection.query(query, (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  } else {
+    const query =
+      "SELECT Showing_ID, showings.Room_ID, Name, Image_URL, Date_Time, IMAX FROM showings INNER JOIN movies ON movies.Movie_ID = showings.Movie_ID INNER JOIN rooms ON showings.Room_ID = rooms.Room_ID WHERE showings.Movie_ID = ? ORDER BY Showing_ID";
+    connection.query(query, [id], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  }
+});
+
+// this is used by UpdateShowing to only receive showing information
+app.get("/temp-showings2", (req, res) => {
+  const id = req.query.showing;
+
+  const query = "SELECT * FROM showings WHERE Showing_ID = ?";
   connection.query(query, [id], (error, results) => {
     if (error) {
       throw error;
@@ -599,7 +623,7 @@ app.patch("/showings", (req, res) => {
   const showingID = req.body.showingID;
 
   if (movieID == undefined || roomID == undefined || time == undefined) {
-    throw "Invalid showings request";
+    throw "Invalid showings patch";
   }
 
   const query =
