@@ -3,9 +3,34 @@ import { useEffect, useState } from "react";
 import { BiPencil } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 import { RiFilePaper2Line } from "react-icons/ri";
+import { useHistory } from "react-router-dom";
 
-function UserCard({ admin, firstName, lastName, phoneNumber, username }) {
+function UserCard({
+  id,
+  admin,
+  firstName,
+  lastName,
+  phoneNumber,
+  username,
+  setReload,
+}) {
   const [deleteHover, setDeleteHover] = useState(false);
+
+  const navigate = useHistory();
+
+  const handleEdit = () => {
+    navigate.push(`/updateUser/${id}`);
+  };
+
+  const handleDelete = () => {
+    axios
+      .delete("/users", {
+        data: {
+          userID: id,
+        },
+      })
+      .then(() => setReload((r) => !r));
+  };
 
   return (
     <div className="relative group min-w-fit w-32">
@@ -35,10 +60,10 @@ function UserCard({ admin, firstName, lastName, phoneNumber, username }) {
         />
         {!admin && (
           <>
-            <BiPencil className="w-6 h-auto" onClick={() => alert("edit")} />
+            <BiPencil className="w-6 h-auto" onClick={handleEdit} />
             <IoClose
               className="w-6 h-auto fill-red-500 hover:fill-black"
-              onClick={() => alert("delete")}
+              onClick={handleDelete}
               onMouseEnter={() => setDeleteHover(true)}
               onMouseLeave={() => setDeleteHover(false)}
             />
@@ -51,21 +76,24 @@ function UserCard({ admin, firstName, lastName, phoneNumber, username }) {
 
 function UserGrid() {
   const [users, setUsers] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     axios.get("/users").then((res) => setUsers(res.data));
-  }, []);
+  }, [reload]);
 
   return (
-    <div className="flex items-stretch gap-4">
+    <div className="flex flex-wrap items-stretch gap-4">
       {users.map((user) => (
         <UserCard
           key={user.Username}
+          id={user.User_ID}
           admin={user.Admin_Status}
           firstName={user.First_Name}
           lastName={user.Last_Name}
           phoneNumber={user.Phone_Number}
           username={user.Username}
+          setReload={setReload}
         />
       ))}
     </div>

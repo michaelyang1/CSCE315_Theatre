@@ -21,16 +21,15 @@ function DeletionCard({
   const handleUpdate = () => navigate.push(`/updateMovie/${id}`);
 
   const handleDelete = () => {
-    // axios
-    //   .delete("/movies", {
-    //     data: {
-    //       movieID: id,
-    //     },
-    //   })
-    //   .then(() => {
-    //     setReload((r) => !r);
-    //   });
-    alert("deleted");
+    axios
+      .delete("/movies", {
+        data: {
+          movieID: id,
+        },
+      })
+      .then(() => {
+        setReload((r) => !r);
+      });
   };
 
   return (
@@ -87,15 +86,15 @@ function MovieGrid({ reload, setReload }) {
   );
 }
 
-function DeleteMovie() {
+function EditMovie() {
   const [reload, setReload] = useState(false);
 
   return (
     <div>
-      <h1 className="text-3xl mb-4 uppercase font-thin">Delete Movie</h1>
+      <h1 className="text-3xl mb-4 uppercase font-thin">Edit Movie</h1>
       <MovieGrid reload={reload} setReload={setReload} />
     </div>
   );
 }
 
-export default DeleteMovie;
+export default EditMovie;

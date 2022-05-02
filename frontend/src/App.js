@@ -17,6 +17,7 @@ import ConfirmTicket from "./routes/ConfirmTicket";
 import CreateRooms from "./routes/CreateRooms";
 import CreateUser from "./routes/CreateUser";
 import UpdateMovie from "./routes/UpdateMovie";
+import UpdateUser from "./routes/UpdateUser";
 import axios from "axios";
 import { useState } from "react";
 import Login from "./routes/Login";
@@ -35,12 +36,9 @@ function App() {
   return (
     <Router>
       <div className="m-4 font-open">
-        <div className="flex justify-between mb-4 items-center">
-          <Link to="/">
-            <h1 className="text-4xl font-thin">The 310 Theatre</h1>
-          </Link>
-          <h1 className="text-3xl font-thin">{username}</h1>
-        </div>
+        <Link to="/">
+          <h1 className="text-4xl font-thin mb-4">The 310 Theatre</h1>
+        </Link>
         <Switch>
           <Route exact path="/movies">
             <SelectMovie setMovie={setMovie} />
@@ -71,6 +69,9 @@ function App() {
           </Route>
           <Route exact path="/users">
             <SelectUsers />
+          </Route>
+          <Route exact path="/updateUser/:id">
+            <UpdateUser />
           </Route>
           <Route exact path="/reviews">
             <CreateReview user={user} username={username} />
@@ -112,6 +113,13 @@ function App() {
                 </h1>
               </Link>
             </div>
+            <div>
+              <Link to={`/updateUser/${user}`}>
+                <h1 className="text-4xl hover:text-green-400">
+                  Update Profile
+                </h1>
+              </Link>
+            </div>
           </Route>
 
           <Route path="/adminLanding">
@@ -140,7 +148,6 @@ function App() {
                   </h1>
                 </Link>
               </div>
-
             </div>
           </Route>
         </Switch>

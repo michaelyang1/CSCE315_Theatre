@@ -524,7 +524,7 @@ app.patch("/users", (req, res) => {
   }
 
   const query =
-    "UPDATE users SET Admin_Status=0, First_Name=?, Last_Name=?, Favorite_Movie=?, Favorite_Room=?, Phone_Number=?, Username=?, Password = ? WHERE User_ID=?;";
+    "UPDATE users SET Admin_Status=?, First_Name=?, Last_Name=?, Favorite_Movie=?, Favorite_Room=?, Phone_Number=?, Username=?, Password = ? WHERE User_ID=?";
   connection.query(
     query,
     [
