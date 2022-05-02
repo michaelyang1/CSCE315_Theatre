@@ -187,7 +187,7 @@ function Review({ username, verified, user, reload, setReload }) {
   );
 }
 
-function CreateReview({ user }) {
+function CreateReview({ user, username }) {
   const [reload, setReload] = useState(false);
   return (
     <div className="flex justify-center">
@@ -195,8 +195,8 @@ function CreateReview({ user }) {
         <h1 className="text-3xl uppercase font-thin">Create Review</h1>
         {
           <Review
-            username={"Donuts"}
-            verified={true}
+            username={username}
+            verified={false}
             user={user}
             reload={reload}
             setReload={setReload}

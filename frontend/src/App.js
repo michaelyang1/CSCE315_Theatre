@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import "./App.css";
 import SelectMovie from "./routes/SelectMovie";
 import SelectShowing from "./routes/SelectShowing";
@@ -11,12 +17,14 @@ import ConfirmTicket from "./routes/ConfirmTicket";
 import CreateRooms from "./routes/CreateRooms";
 import axios from "axios";
 import { useState } from "react";
-import Login from "./routes/login";
+import Login from "./routes/Login";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
 function App() {
-  const [user, setUser] = useState(4);
+  const [user, setUser] = useState(0);
+  const [username, setUsername] = useState("");
+  const [admin, setAdmin] = useState(false);
   const [movie, setMovie] = useState(0);
   const [showing, setShowing] = useState(0);
   const [room, setRoom] = useState(0);
@@ -25,9 +33,12 @@ function App() {
   return (
     <Router>
       <div className="m-4 font-open">
-        <Link to="/">
-          <h1 className="text-4xl font-thin mb-4">The 310 Theatre</h1>
-        </Link>
+        <div className="flex justify-between mb-4 items-center">
+          <Link to="/">
+            <h1 className="text-4xl font-thin">The 310 Theatre</h1>
+          </Link>
+          <h1 className="text-3xl font-thin">{username}</h1>
+        </div>
         <Switch>
           <Route exact path="/movies">
             <SelectMovie setMovie={setMovie} />
@@ -57,7 +68,7 @@ function App() {
             <SelectUsers />
           </Route>
           <Route exact path="/reviews">
-            <CreateReview user={user} />
+            <CreateReview user={user} username={username} />
           </Route>
           <Route exact path="/rooms">
             <CreateRooms user={user} />
@@ -65,11 +76,21 @@ function App() {
           <Route exact path="/confirm">
             <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
           </Route>
-          
-          <Route exact path = "/">
-            <Login></Login>
+
+          <Route exact path="/">
+            {!user ? (
+              <Login
+                setUser={setUser}
+                setDisplayName={setUsername}
+                setAdmin={setAdmin}
+              />
+            ) : admin ? (
+              <Redirect to="/adminLanding" />
+            ) : (
+              <Redirect to="/userLanding" />
+            )}
           </Route>
-          <Route exact path = "/forNow">
+          <Route exact path="/forNow">
             <div className="flex gap-8 font-thin">
               <div>
                 <Link to="/movies">
@@ -101,28 +122,26 @@ function App() {
               <div>
                 <Link to="/rooms">
                   <h1 className="text-4xl hover:text-yellow-400">
-                    Create Room 
+                    Create Room
                   </h1>
                 </Link>
               </div>
-
             </div>
           </Route>
 
-
-          <Route exact path= "/userLanding">
-             <div>
-                  <Link to="/movies">
-                    <h1 className="text-4xl hover:text-pink-500">Select Movie</h1>
-                  </Link>
-                </div>
-                <div>
-                <Link to="/reviews">
-                  <h1 className="text-4xl hover:text-yellow-400">
-                    Create Review
-                  </h1>
-                </Link>
-              </div>
+          <Route exact path="/userLanding">
+            <div>
+              <Link to="/movies">
+                <h1 className="text-4xl hover:text-pink-500">Select Movie</h1>
+              </Link>
+            </div>
+            <div>
+              <Link to="/reviews">
+                <h1 className="text-4xl hover:text-yellow-400">
+                  Create Review
+                </h1>
+              </Link>
+            </div>
           </Route>
 
           <Route path="/adminLanding">
@@ -144,13 +163,8 @@ function App() {
                   </h1>
                 </Link>
               </div>
-
             </div>
           </Route>
-
-
-
-
         </Switch>
       </div>
     </Router>
