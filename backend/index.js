@@ -25,6 +25,7 @@ var connection = mysql.createConnection({
 connection.connect();
 
 // GET METHODS (API methods to retrieve information about our theatre)
+// Contributed by Anubhav Aryal, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.get("/movies", (req, res) => {
   const query = "SELECT * FROM movies";
   connection.query(query, (error, results) => {
@@ -86,6 +87,7 @@ app.get("/temp-showings", (req, res) => {
   });
 });
 
+// Contributed by David Erdner, as part of the Create Theater Review feature set (Feature Set 4)
 app.get("/reviews", (req, res) => {
   // retrieve the theatre reviews by latest time
   const query = "select * from theater_reviews order by Time_Posted desc";
@@ -107,6 +109,7 @@ app.get("/tickets", (req, res) => {
   });
 });
 
+// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1) 
 app.get("/users", (req, res) => {
   const id = req.query.id;
 
@@ -141,6 +144,7 @@ app.get("/records", (req, res) => {
 
 // POST REQUESTS
 // these are the api methods which we use to create new rows (tuples) into the respective tables (dependent on the api routes)
+// Contributed by Michael Yang as part of the Movie Create and Delete feature set (Feature Set 2)
 app.post("/movies", (req, res) => {
   // retrieve information from the request body (the body names must identically match the json parameter names)
   const name = req.body.name;
@@ -236,6 +240,7 @@ app.post("/showings", (req, res) => {
   });
 });
 
+// Contributed by David Erdner, as part of the Create Theater Review feature set (Feature Set 4)
 app.post("/reviews", (req, res) => {
   const userID = req.body.userID;
   const rating = req.body.rating;
@@ -260,6 +265,7 @@ app.post("/reviews", (req, res) => {
   });
 });
 
+// Contributed by Anubhav Aryal, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.post("/tickets", (req, res) => {
   const seatID = req.body.seatID;
   const userID = req.body.userID;
@@ -278,6 +284,7 @@ app.post("/tickets", (req, res) => {
   });
 });
 
+// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1) 
 app.post("/users", (req, res) => {
   const adminStatus = req.body.adminStatus;
   const firstName = req.body.firstName;
@@ -342,6 +349,7 @@ app.post("/records", (req, res) => {
 
 // DELETE REQUESTS
 // These are the api methods used to delete rows from table based off select attributes (e.g. id)
+// Contributed by Michael Yang as part of the Movie Create and Delete feature set (Feature Set 2)
 app.delete("/movies", (req, res) => {
   const movie_id = req.body.movieID;
 
