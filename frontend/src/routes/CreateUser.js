@@ -11,6 +11,10 @@ function CreateUser() {
   const [lName, setLName] = useState('');
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
+   const [favMov, setfavMov] = useState('');
+  const [favRoom, setfavRoom] = useState('');
+  const [phoneNum, setphoneNum] = useState('');  
+
   const Checked = () => <>⚙</>;
   const UnChecked = () => <>🎞</>;
   const [status, setStatus] = useState("User");
@@ -20,32 +24,34 @@ function CreateUser() {
   const [error, setError] = useState(false);
  
   // Handling the name change
-
-  const handleChange = (e) => {
+  const handleFname = (e) => {
     setFName(e.target.value);
     setSubmitted(false);
-
-    setusername(e.target.value);
-    setSubmitted(false);
-
-    setPassword(e.target.value);
-    setSubmitted(false);
-  }
-/*   const handleFName = (e) => {
   };
- 
-  // Handling the username change
+  const handleLname= (e) => {
+    setLName(e.target.value);
+    setSubmitted(false);
+  };
   const handleUsername = (e) => {
     setusername(e.target.value);
     setSubmitted(false);
   };
- 
-  // Handling the password change
+  const handleFavMovie= (e) => {
+    setfavMov(e.target.value);
+    setSubmitted(false);
+  };
+  const handleFavRoom= (e) => {
+    setfavRoom(e.target.value);
+    setSubmitted(false);
+  };
+  const handlePhoneNum= (e) => {
+    setphoneNum(e.target.value);
+    setSubmitted(false);
+  }; 
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setSubmitted(false);
-  }; */
- 
+  };
   // Handling the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -108,20 +114,41 @@ function CreateUser() {
  
       <form>
         {/* Labels and inputs for form data */}
-        <label className="label">First Name</label>
         <div className='row'>
-        <input onChange={handleChange} className="input"
+            <label className="label">First Name</label>
+            <input onChange={handleFname} className="input"
           value={fName} type="text" />
+
+            <label className="label">Last Name</label>
+            <input onChange={handleLname} className="input"
+          value={lName} type="text" />
         </div>
- 
+
+
+
+        <div className='row'>
+            <label className="label">favoriteMovie</label>
+            <input onChange={handleFavMovie} className="input"
+          value={favMov} type="text" />
+
+            <label className="label">Favorite Room</label>
+            <input onChange={handleFavRoom} className="input"
+          value={favRoom} type="text" />
+        </div>
+
+        <div className='row'>
         <label className="label">Username</label>
-        <input onChange={handleChange} className="input"
+        <input onChange={handleUsername} className="input"
           value={username} type="username" />
  
         <label className="label">Password</label>
-        <input onChange={handleChange} className="input"
+        <input onChange={handlePassword} className="input"
           value={password} type="password" />
 
+        </div>
+        <label className="label">Phone Number</label>
+            <input onChange={handlePhoneNum} className="input"
+          value={phoneNum} type="text" />
         <div className='ToggleSection'>
             <h1>{status}</h1>
             <ToggleButton onChange={state => handleToggle(state)} icons={{checked: <Checked />, unchecked: <UnChecked />}} />
