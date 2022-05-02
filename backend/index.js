@@ -50,13 +50,24 @@ app.get("/movies", (req, res) => {
 
 app.get("/rooms", (req, res) => {
   const id = req.query.room;
-  const query = "SELECT * FROM rooms WHERE Room_ID = ?";
-  connection.query(query, [id], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    res.send(results);
-  });
+
+  if (id === undefined) {
+    const query = "SELECT * FROM rooms";
+    connection.query(query, (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  } else {
+    const query = "SELECT * FROM rooms WHERE Room_ID = ?";
+    connection.query(query, [id], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  }
 });
 
 app.get("/seats", (req, res) => {
@@ -195,8 +206,6 @@ app.post("/rooms", (req, res) => {
   const Room_ID = req.body.Room_ID;
   const Capacity = req.body.Capacity;
   const IMAX = req.body.IMAX;
-
-  console.log("bruh");
 
   if (Room_ID == undefined || Capacity == undefined || IMAX == undefined) {
     throw "Invalid reviews request";
@@ -611,8 +620,6 @@ app.patch("/rooms", (req, res) => {
   const Room_ID = req.body.Room_ID;
   const Capacity = req.body.Capacity;
   const IMAX = req.body.IMAX;
-
-  console.log("bruh");
 
   if (Room_ID == undefined || Capacity == undefined || IMAX == undefined) {
     throw "Invalid reviews request";

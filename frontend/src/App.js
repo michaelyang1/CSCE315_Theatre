@@ -22,6 +22,8 @@ import ViewProfile from "./routes/ViewProfile";
 import axios from "axios";
 import { useState } from "react";
 import Login from "./routes/Login";
+import UpdateRoom from "./routes/UpdateRoom";
+import SelectRooms from "./routes/SelectRooms";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
@@ -85,6 +87,12 @@ function App() {
           </Route>
           <Route exact path="/updateMovie/:id">
             <UpdateMovie />
+          </Route>
+          <Route exact path="/updateRoom/:id">
+            <UpdateRoom />
+          </Route>
+          <Route exact path="/selectRoom">
+            <SelectRooms />
           </Route>
           <Route exact path="/viewProfile/:id">
             <ViewProfile />
@@ -152,8 +160,13 @@ function App() {
               </div>
               <div>
                 <Link to="/rooms">
-                  <h1 className="text-4xl hover:text-purple-600">
-                    Create Room
+                  <h1 className="text-4xl hover:text-pink-600">Create Room</h1>
+                </Link>
+              </div>
+              <div>
+                <Link to="/selectRoom">
+                  <h1 className="text-4xl hover:text-emerald-600">
+                    Select Room
                   </h1>
                 </Link>
               </div>
