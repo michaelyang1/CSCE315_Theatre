@@ -42,6 +42,7 @@ function ViewProfile() {
       <h1>Favorite Movie: {favoriteMovie}</h1>
       <h1>Favorite Room: {favoriteRoom}</h1>
       <h1>Phone Number: {phoneNumber}</h1>
+      <h1>ID: {id}</h1>
     </div>
   );
 }

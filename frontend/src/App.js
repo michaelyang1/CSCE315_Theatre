@@ -22,7 +22,7 @@ import CreateShowings from "./routes/CreateShowing";
 import ViewProfile from "./routes/ViewProfile";
 import axios from "axios";
 import { useState } from "react";
-import Login from "./routes/Login";
+import Login from "./routes/login";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
@@ -168,6 +168,15 @@ function App() {
                   </h1>
                 </Link>
               </div>
+
+              <div>
+                <Link to="/updateUser/:id">
+                  <h1 className="text-4xl hover:text-purple-600">
+                    Update User
+                  </h1>
+                </Link>
+              </div>
+
 
             </div>
           </Route>
