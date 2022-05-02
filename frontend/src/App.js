@@ -9,7 +9,6 @@ import "./App.css";
 import SelectMovie from "./routes/SelectMovie";
 import SelectShowing from "./routes/SelectShowing";
 import CreateMovie from "./routes/CreateMovie";
-import DeleteMovie from "./routes/EditMovie";
 import SelectSeats from "./routes/SelectSeats";
 import SelectUsers from "./routes/SelectUsers";
 import CreateReview from "./routes/CreateReview";
@@ -27,6 +26,7 @@ import UpdateRoom from "./routes/UpdateRoom";
 import SelectRooms from "./routes/SelectRooms";
 import EditShowings from "./routes/EditShowings";
 import UpdateShowing from "./routes/UpdateShowing";
+import EditMovie from "./routes/EditMovie";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
@@ -65,8 +65,8 @@ function App() {
           <Route exact path="/create">
             <CreateMovie />
           </Route>
-          <Route exact path="/delete">
-            <DeleteMovie />
+          <Route exact path="/edit">
+            <EditMovie />
           </Route>
           <Route exact path="/seats">
             <SelectSeats
@@ -159,8 +159,8 @@ function App() {
                     Create Movie
                   </h1>
                 </Link>
-                <Link to="/delete">
-                  <h1 className="text-4xl hover:text-lime-500">Delete Movie</h1>
+                <Link to="/edit">
+                  <h1 className="text-4xl hover:text-lime-500">Edit Movie</h1>
                 </Link>
               </div>
               <div>
