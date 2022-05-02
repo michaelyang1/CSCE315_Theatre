@@ -4,6 +4,9 @@ import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 
 // Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1)
+
+
+//Allows users and Admins to login, and are redirected to respective pages. 
 function Login({ setUser, setDisplayName, setAdmin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

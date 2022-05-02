@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
+
+// Contributed by David Erdner as part of Room/Seat creation feature set 
 function Seat({ num, selectedSeats, setSelectedSeats, active }) {
   return (
     <div className="w-12">

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-//Contributed by Nadxhieli Juarez as part of user related features
+
+// Contributed by Nadxhieli Juarez as part of the Create new user feature set 
 function CreateUser({ setUser, setDisplayName }) {
   /*Variables to populate with new user info */
   const [firstName, setFirstName] = useState("");

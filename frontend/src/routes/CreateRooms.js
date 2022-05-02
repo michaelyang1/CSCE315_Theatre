@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 
+// Contributed by David Erdner, as part of the Create Rooms feature set (Feature Set 4)
+
+// Allows for generic text field or input
 function Field({
   value,
   setValue,
@@ -43,7 +46,7 @@ function Field({
   );
 }
 
-//function Room(Room_ID, Capacity, IMAX) {
+//Allows to create room
 function Room() {
   const [Room_ID, setRoom_ID] = useState(0);
   const [Capacity, setCapacity] = useState(0);
@@ -78,12 +81,6 @@ function Room() {
             });
         });
     }
-  };
-  const setIMAXYes = () => {
-    IMAX = 1;
-  };
-  const setIMAXNo = () => {
-    IMAX = 0;
   };
 
   return (
@@ -140,8 +137,8 @@ function Room() {
   );
 }
 
+// Call Room function
 function CreateRooms({ user }) {
-  const [reload, setReload] = useState(false);
   return (
     <div className="flex justify-center">
       <div className="w-2/5 flex flex-col gap-4">

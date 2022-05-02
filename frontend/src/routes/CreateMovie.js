@@ -3,6 +3,8 @@ import MovieCard from "../components/MovieCard";
 import axios from "axios";
 
 // Contributed by Michael Yang as part of the Movie Create and Delete feature set (Feature Set 2) 
+
+// Basic field allows for text field and inputs
 function Field({
   value,
   setValue,
@@ -45,6 +47,7 @@ function Field({
   );
 }
 
+// Get all inputs for movie
 function MovieInput({
   name,
   setName,
@@ -174,6 +177,7 @@ function MovieInput({
   );
 }
 
+// Create movie calls movie input function
 function CreateMovie() {
   const [name, setName] = useState("");
   const [length, setLength] = useState("");

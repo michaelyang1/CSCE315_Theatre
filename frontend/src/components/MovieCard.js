@@ -1,3 +1,6 @@
+// Contributed by Anubhav Aryal
+
+// individual movie card item makes viewing movies easy
 function MovieCard({ name, length, genre, desc, image, ...props }) {
   return (
     <div

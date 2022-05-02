@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-/*Contributed by Nadxhiei  */
+
+// Contributed by Nadxhieli Juarez as part of the Create new user feature set 
 function UpdateUser() {
   const { id } = useParams();
 /*variables to be populated with user data */

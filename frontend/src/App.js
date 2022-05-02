@@ -9,7 +9,6 @@ import "./App.css";
 import SelectMovie from "./routes/SelectMovie";
 import SelectShowing from "./routes/SelectShowing";
 import CreateMovie from "./routes/CreateMovie";
-import DeleteMovie from "./routes/EditMovie";
 import SelectSeats from "./routes/SelectSeats";
 import SelectUsers from "./routes/SelectUsers";
 import CreateReview from "./routes/CreateReview";
@@ -23,9 +22,16 @@ import ViewProfile from "./routes/ViewProfile";
 import DeleteUser from "./routes/DeleteUser";
 import axios from "axios";
 import { useState } from "react";
-import Login from "./routes/login";
+import Login from "./routes/Login";
+import UpdateRoom from "./routes/UpdateRoom";
+import SelectRooms from "./routes/SelectRooms";
+import EditShowings from "./routes/EditShowings";
+import UpdateShowing from "./routes/UpdateShowing";
+import EditMovie from "./routes/EditMovie";
 
 axios.defaults.baseURL = "http://localhost:5914";
+
+// Overall app Created by Team: David Erdner, Anubhav Aryal, Michael Yang, Nadxhieli Juarez 
 
 function App() {
   const [user, setUser] = useState(0);
@@ -65,8 +71,8 @@ function App() {
           <Route exact path="/create">
             <CreateMovie />
           </Route>
-          <Route exact path="/delete">
-            <DeleteMovie />
+          <Route exact path="/edit">
+            <EditMovie />
           </Route>
           <Route exact path="/seats">
             <SelectSeats
@@ -94,8 +100,20 @@ function App() {
           <Route exact path="/updateMovie/:id">
             <UpdateMovie />
           </Route>
+          <Route exact path="/updateRoom/:id">
+            <UpdateRoom />
+          </Route>
+          <Route exact path="/selectRoom">
+            <SelectRooms />
+          </Route>
           <Route exact path="/viewProfile/:id">
             <ViewProfile />
+          </Route>
+          <Route exact path="/editShowing">
+            <EditShowings />
+          </Route>
+          <Route exact path="/updateShowing/:id">
+            <UpdateShowing />
           </Route>
 
           <Route exact path="/">
@@ -147,8 +165,8 @@ function App() {
                     Create Movie
                   </h1>
                 </Link>
-                <Link to="/delete">
-                  <h1 className="text-4xl hover:text-lime-500">Delete Movie</h1>
+                <Link to="/edit">
+                  <h1 className="text-4xl hover:text-lime-500">Edit Movie</h1>
                 </Link>
               </div>
               <div>
@@ -160,28 +178,30 @@ function App() {
               </div>
               <div>
                 <Link to="/rooms">
-                  <h1 className="text-4xl hover:text-purple-600">
-                    Create Room
+                  <h1 className="text-4xl hover:text-pink-600">Create Room</h1>
+                </Link>
+              </div>
+              <div>
+                <Link to="/selectRoom">
+                  <h1 className="text-4xl hover:text-emerald-600">
+                    Select Room
                   </h1>
                 </Link>
               </div>
               <div>
                 <Link to="/createshowings">
                   <h1 className="text-4xl hover:text-purple-600">
-                    Create Showings 
+                    Create Showings
                   </h1>
                 </Link>
               </div>
-
               <div>
-                <Link to="/updateUser/:id">
+                <Link to="/editShowing">
                   <h1 className="text-4xl hover:text-purple-600">
-                    Update User
+                    Edit Showings
                   </h1>
                 </Link>
               </div>
-
-
             </div>
           </Route>
         </Switch>

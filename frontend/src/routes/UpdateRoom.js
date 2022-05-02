@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
-// Contributed by Michael Yang
+// Contributed by David Erdner as part of Create/Update/Delete Room functionallity
 function Field({
   value,
   setValue,
@@ -44,27 +45,45 @@ function Field({
   );
 }
 
-//function Room(Room_ID, Capacity, IMAX) {
-function Showing() {
-  const [Movie_ID, setMovie_ID] = useState(0);
-  const [Room_ID, setRoom_ID] = useState(0);
-  const [time, setTime] = useState("");
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+function UpdateRoom() {
+  const { id } = useParams();
+  const navigate = useHistory();
 
-  const handleSubmit = () => {
-    if (Movie_ID === "" || Room_ID === "" || time === "") {
+  const [capacity, setCapacity] = useState(0);
+  const [IMAX, setIMAX] = useState(0);
+
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("/rooms", {
+        params: {
+          room: id,
+        },
+      })
+      .then((res) => {
+        const room = res.data[0];
+
+        setCapacity(room.Capacity);
+        setIMAX(room.IMAX);
+      });
+  }, [id]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (capacity === "" || IMAX === "") {
       setError(true);
     } else {
       setError(false);
-      alert(`Showing Creation Successful!`);
+      alert(`Room Update Successful!`);
       axios
-        .post("/showings", {
-          movieID: Movie_ID,
-          roomID: Room_ID,
-          time: time,
+        .patch("/rooms", {
+          Room_ID: id,
+          Capacity: capacity,
+          IMAX: IMAX,
         })
         .then(() => {
+          navigate.goBack();
         });
     }
   };
@@ -73,42 +92,30 @@ function Showing() {
     <form className="space-y-2 shadow-md p-4" noValidate>
       <div>
         <Field
-          value={Movie_ID}
-          setValue={setMovie_ID}
-          success={success}
-          placeholder="Enter Movie ID."
-          label="Movie ID:"
-          id="Movie_ID"
+          value={capacity}
+          setValue={setCapacity}
+          success={false}
+          placeholder="Enter Capacity."
+          label="Room Capacity:"
+          id="Capacity"
           type="input"
         />
       </div>
 
       <div>
         <Field
-          value={Room_ID}
-          setValue={setRoom_ID}
-          success={success}
-          placeholder="Enter room number."
-          label="Room Number:"
-          id="Room_ID"
-          type="input"
-        />
-      </div>
-
-      <div>
-        <Field
-          value={time}
-          setValue={setTime}
-          success={success}
-          placeholder="YYYY-MM-DD HH:MM"
-          label="Enter Date and Time of Movie in format: 'YYYY-MM-DD HH:MM':"
-          id="time"
+          value={IMAX}
+          setValue={setIMAX}
+          success={false}
+          placeholder="Is room IMAX?"
+          label="IMAX:"
+          id="IMAX"
           type="input"
         />
       </div>
 
       <p className={`${!error ? "hidden" : ""} text-red-500 italic text-sm`}>
-        Cannot Create Showing until all fields are filled.
+        Cannot update room until all fields are filled.
       </p>
 
       <div>
@@ -116,23 +123,11 @@ function Showing() {
           className="border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white px-4 py-2 rounded font-semibold hover:shadow-md hover:shadow-emerald-200"
           onClick={handleSubmit}
         >
-          Create Showing 
+          Update Room
         </button>
       </div>
     </form>
   );
 }
 
-function CreateShowing({ user }) {
-  const [reload, setReload] = useState(false);
-  return (
-    <div className="flex justify-center">
-      <div className="w-2/5 flex flex-col gap-4">
-        <h1 className="text-3xl uppercase font-thin">Create Showing</h1>
-        {<Showing />}
-      </div>
-    </div>
-  );
-}
-
-export default CreateShowing;
+export default UpdateRoom;
