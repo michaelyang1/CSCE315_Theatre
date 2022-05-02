@@ -9,13 +9,14 @@ import "./App.css";
 import SelectMovie from "./routes/SelectMovie";
 import SelectShowing from "./routes/SelectShowing";
 import CreateMovie from "./routes/CreateMovie";
-import DeleteMovie from "./routes/DeleteMovie";
+import DeleteMovie from "./routes/EditMovie";
 import SelectSeats from "./routes/SelectSeats";
 import SelectUsers from "./routes/SelectUsers";
 import CreateReview from "./routes/CreateReview";
 import ConfirmTicket from "./routes/ConfirmTicket";
 import CreateRooms from "./routes/CreateRooms";
 import CreateUser from "./routes/CreateUser";
+import UpdateMovie from "./routes/UpdateMovie";
 import axios from "axios";
 import { useState } from "react";
 import Login from "./routes/Login";
@@ -79,6 +80,9 @@ function App() {
           </Route>
           <Route exact path="/confirm">
             <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
+          </Route>
+          <Route exact path="/updateMovie/:id">
+            <UpdateMovie />
           </Route>
 
           <Route exact path="/">

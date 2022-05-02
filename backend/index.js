@@ -27,13 +27,25 @@ connection.connect();
 // GET METHODS (API methods to retrieve information about our theatre)
 // Contributed by Anubhav Aryal, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 app.get("/movies", (req, res) => {
-  const query = "SELECT * FROM movies";
-  connection.query(query, (error, results) => {
-    if (error) {
-      throw error;
-    }
-    res.send(results);
-  });
+  const id = req.query.movieID;
+
+  if (id === undefined) {
+    const query = "SELECT * FROM movies";
+    connection.query(query, (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  } else {
+    const query = "SELECT * FROM movies WHERE Movie_ID = ?";
+    connection.query(query, [id], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    });
+  }
 });
 
 app.get("/rooms", (req, res) => {

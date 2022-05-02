@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
-import { MdOutlineClose } from "react-icons/md";
+import { BiPencil } from "react-icons/bi";
+import { IoClose } from "react-icons/io5";
+import { useHistory } from "react-router-dom";
 
 // Contributed by Michael Yang as part of the Movie Create and Delete feature set (Feature Set 2)
 function DeletionCard({
@@ -14,31 +16,26 @@ function DeletionCard({
   setReload,
   ...props
 }) {
-  const [hover, setHover] = useState(false);
+  const navigate = useHistory();
 
-  const handleClick = () => {
-    axios
-      .delete("/movies", {
-        data: {
-          movieID: id,
-        },
-      })
-      .then(() => {
-        setReload((r) => !r);
-      });
+  const handleUpdate = () => navigate.push(`/updateMovie/${id}`);
+
+  const handleDelete = () => {
+    // axios
+    //   .delete("/movies", {
+    //     data: {
+    //       movieID: id,
+    //     },
+    //   })
+    //   .then(() => {
+    //     setReload((r) => !r);
+    //   });
+    alert("deleted");
   };
 
   return (
-    <div
-      className="relative flex"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <div
-        className={`flex transition ease-in-out duration-300 ${
-          hover ? "blur-sm" : ""
-        }`}
-      >
+    <div className="relative flex group">
+      <div className="flex transition ease-in-out duration-300 group-hover:blur-sm">
         <MovieCard
           key={id}
           name={name}
@@ -49,13 +46,16 @@ function DeletionCard({
           {...props}
         />
       </div>
-      <MdOutlineClose
-        color="red"
-        className={`absolute top-0 left-0 mx-auto text-center scale-50 w-full h-full cursor-pointer ${
-          hover ? "" : "hidden"
-        }`}
-        onClick={handleClick}
-      />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:flex gap-4 hidden">
+        <BiPencil
+          className="w-16 h-auto fill-neutral-500 hover:fill-white cursor-pointer"
+          onClick={handleUpdate}
+        />
+        <IoClose
+          className="w-16 h-auto fill-red-500 cursor-pointer"
+          onClick={handleDelete}
+        />
+      </div>
     </div>
   );
 }
