@@ -21,7 +21,7 @@ import UpdateUser from "./routes/UpdateUser";
 import ViewProfile from "./routes/ViewProfile";
 import axios from "axios";
 import { useState } from "react";
-import Login from "./routes/Login";
+import Login from "./routes/login";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
