@@ -18,6 +18,7 @@ import CreateRooms from "./routes/CreateRooms";
 import CreateUser from "./routes/CreateUser";
 import UpdateMovie from "./routes/UpdateMovie";
 import UpdateUser from "./routes/UpdateUser";
+import ViewProfile from "./routes/ViewProfile";
 import axios from "axios";
 import { useState } from "react";
 import Login from "./routes/Login";
@@ -85,6 +86,9 @@ function App() {
           <Route exact path="/updateMovie/:id">
             <UpdateMovie />
           </Route>
+          <Route exact path="/viewProfile/:id">
+            <ViewProfile />
+          </Route>
 
           <Route exact path="/">
             {!user ? (
@@ -118,6 +122,11 @@ function App() {
                 <h1 className="text-4xl hover:text-green-400">
                   Update Profile
                 </h1>
+              </Link>
+            </div>
+            <div>
+              <Link to={`/viewProfile/${user}`}>
+                <h1 className="text-4xl hover:text-red-400">View Profile</h1>
               </Link>
             </div>
           </Route>

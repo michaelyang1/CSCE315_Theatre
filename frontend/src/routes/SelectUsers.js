@@ -18,6 +18,10 @@ function UserCard({
 
   const navigate = useHistory();
 
+  const handleProfile = () => {
+    navigate.push(`/viewProfile/${id}`);
+  };
+
   const handleEdit = () => {
     navigate.push(`/updateUser/${id}`);
   };
@@ -54,10 +58,7 @@ function UserCard({
       </div>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:flex gap-4 hidden">
-        <RiFilePaper2Line
-          className="w-6 h-auto"
-          onClick={() => alert("profile")}
-        />
+        <RiFilePaper2Line className="w-6 h-auto" onClick={handleProfile} />
         {!admin && (
           <>
             <BiPencil className="w-6 h-auto" onClick={handleEdit} />
