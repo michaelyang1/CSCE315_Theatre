@@ -73,38 +73,7 @@ function App() {
           <Route exact path = "/">
             <Login></Login>
           </Route>
-          <Route exact path = "/forNow">
-            <div className="flex gap-8 font-thin">
-              <div>
-                <Link to="/movies">
-                  <h1 className="text-4xl hover:text-pink-500">Select Movie</h1>
-                </Link>
-                <Link to="/create">
-                  <h1 className="text-4xl hover:text-orange-300">
-                    Create Movie
-                  </h1>
-                </Link>
-                <Link to="/delete">
-                  <h1 className="text-4xl hover:text-lime-500">Delete Movie</h1>
-                </Link>
-              </div>
-              <div>
-                <Link to="/reviews">
-                  <h1 className="text-4xl hover:text-yellow-400">
-                    Create Review
-                  </h1>
-                </Link>
-              </div>
-              <div>
-                <Link to="/rooms">
-                  <h1 className="text-4xl hover:text-yellow-400">
-                    Create Room 
-                  </h1>
-                </Link>
-              </div>
 
-            </div>
-          </Route>
 
 
           <Route exact path= "/userLanding">
@@ -117,6 +86,13 @@ function App() {
                 <Link to="/reviews">
                   <h1 className="text-4xl hover:text-yellow-400">
                     Create Review
+                  </h1>
+                </Link>
+              </div>
+              <div>
+                <Link to="/createUsers">
+                  <h1 className="text-4xl hover:text-yellow-400">
+                    Register
                   </h1>
                 </Link>
               </div>
@@ -138,6 +114,14 @@ function App() {
                 <Link to="/users">
                   <h1 className="text-4xl hover:text-purple-600">
                     Select User
+                  </h1>
+                </Link>
+              </div>
+
+              <div>
+                <Link to="/createUsers">
+                  <h1 className="text-4xl hover:text-yellow-400">
+                    Add User
                   </h1>
                 </Link>
               </div>

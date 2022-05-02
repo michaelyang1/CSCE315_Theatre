@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import "./CreateUser.css";
+import "./createUser.css";
 import ToggleButton from "../components/ToggleButton";
 import axios from "axios";
  
