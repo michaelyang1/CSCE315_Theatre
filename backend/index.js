@@ -497,7 +497,6 @@ app.listen(port, () => {
   console.log("started server");
 });
 
-
 //UPDATES
 app.patch("/users", (req, res) => {
   const adminStatus = req.body.adminStatus;
@@ -524,7 +523,8 @@ app.patch("/users", (req, res) => {
     throw "Invalid users request";
   }
 
-  const query = "UPDATE users SET Admin_Status=0, First_Name=?, Last_Name=?, Favorite_Movie=?, Favorite_Room=?, Phone_Number=?, Username=?, Password = ? WHERE User_ID=?;"
+  const query =
+    "UPDATE users SET Admin_Status=0, First_Name=?, Last_Name=?, Favorite_Movie=?, Favorite_Room=?, Phone_Number=?, Username=?, Password = ? WHERE User_ID=?;";
   connection.query(
     query,
     [
@@ -568,7 +568,8 @@ app.patch("/movies", (req, res) => {
   }
 
   // otherwise, we insert the row into the table
-  const query = "UPDATE movies SET Name=?, Length=?, Primary_Genre=?, Description=?, ImageURL=? where Movie_ID = ?";
+  const query =
+    "UPDATE movies SET Name=?, Length=?, Primary_Genre=?, Description=?, Image_URL=? where Movie_ID = ?";
   // we use the '?' to prevent sql injection attacks when supplying the query arguments
   connection.query(
     query,
@@ -592,13 +593,18 @@ app.patch("/showings", (req, res) => {
     throw "Invalid showings request";
   }
 
-  const query = "UPDATE showings SET Movie_ID=?, Room_ID=?, Date_Time=? WHERE Showing_ID=?";
-  connection.query(query, [movieID, roomID, time, showingID], (error, results) => {
-    if (error) {
-      throw error;
+  const query =
+    "UPDATE showings SET Movie_ID=?, Room_ID=?, Date_Time=? WHERE Showing_ID=?";
+  connection.query(
+    query,
+    [movieID, roomID, time, showingID],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
     }
-    res.send(results);
-  });
+  );
 });
 
 app.patch("/rooms", (req, res) => {
@@ -612,13 +618,18 @@ app.patch("/rooms", (req, res) => {
     throw "Invalid reviews request";
   }
 
-  const query = "UPDATE rooms SET Room_ID=?, Capacity=?, IMAX=? WHERE Room_ID=?";
-  connection.query(query, [Room_ID, Capacity, IMAX, Room_ID], (error, results) => {
-    if (error) {
-      throw error;
+  const query =
+    "UPDATE rooms SET Room_ID=?, Capacity=?, IMAX=? WHERE Room_ID=?";
+  connection.query(
+    query,
+    [Room_ID, Capacity, IMAX, Room_ID],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
     }
-    res.send(results);
-  });
+  );
 });
 
 /*

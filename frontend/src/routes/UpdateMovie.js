@@ -46,6 +46,7 @@ function Field({
 }
 
 function MovieInput({
+  id,
   name,
   setName,
   length,
@@ -76,6 +77,7 @@ function MovieInput({
 
       axios
         .patch("/movies", {
+          movieID: id,
           name: name,
           length: length,
           genre: genre,
@@ -85,12 +87,6 @@ function MovieInput({
         .then(() => {
           setSuccess(true);
           setTimeout(() => setSuccess(false), 5000);
-
-          setName("");
-          setLength("");
-          setGenre("");
-          setDescription("");
-          setImageURL("");
         });
     }
   };
@@ -206,6 +202,7 @@ function UpdateMovie() {
         <div className="flex items-start gap-4">
           <div>
             <MovieInput
+              id={id}
               name={name}
               setName={setName}
               length={length}
