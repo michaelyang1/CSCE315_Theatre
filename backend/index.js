@@ -484,3 +484,152 @@ app.delete("/records", (req, res) => {
 app.listen(port, () => {
   console.log("started server");
 });
+
+
+//UPDATES
+app.patch("/users", (req, res) => {
+  const adminStatus = req.body.adminStatus;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const favoriteMovie = req.body.favoriteMovie;
+  const favoriteRoom = req.body.favoriteRoom;
+  const phoneNumber = req.body.phoneNumber;
+  const username = req.body.username;
+  const password = req.body.password;
+  const userid = req.body.userid;
+
+  if (
+    adminStatus == undefined ||
+    firstName == undefined ||
+    lastName == undefined ||
+    favoriteMovie == undefined ||
+    favoriteRoom == undefined ||
+    phoneNumber == undefined ||
+    username == undefined ||
+    password == undefined ||
+    userid == undefined
+  ) {
+    throw "Invalid users request";
+  }
+
+  const query = "UPDATE users SET Admin_Status=0, First_Name=?, Last_Name=?, Favorite_Movie=?, Favorite_Room=?, Phone_Number=?, Username=?, Password = ? WHERE User_ID=?;"
+  connection.query(
+    query,
+    [
+      adminStatus,
+      firstName,
+      lastName,
+      favoriteMovie,
+      favoriteRoom,
+      phoneNumber,
+      username,
+      password,
+      userid,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    }
+  );
+});
+
+app.patch("/movies", (req, res) => {
+  // retrieve information from the request body (the body names must identically match the json parameter names)
+  const name = req.body.name;
+  const length = req.body.length;
+  const genre = req.body.genre;
+  const desc = req.body.desc;
+  const imageURL = req.body.imageURL;
+  const movieID = req.body.movieID;
+
+  // if any of the fields are undefined (i.e. not supplied in the request), we throw an error
+  if (
+    name == undefined ||
+    length == undefined ||
+    genre == undefined ||
+    desc == undefined ||
+    imageURL == undefined
+  ) {
+    throw "Invalid movie request";
+  }
+
+  // otherwise, we insert the row into the table
+  const query = "UPDATE movies SET Name=?, Length=?, Primary_Genre=?, Description=?, ImageURL=? where Movie_ID = ?";
+  // we use the '?' to prevent sql injection attacks when supplying the query arguments
+  connection.query(
+    query,
+    [name, length, genre, desc, imageURL, movieID],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.send(results);
+    }
+  );
+});
+
+app.patch("/showings", (req, res) => {
+  const movieID = req.body.movieID;
+  const roomID = req.body.roomID;
+  const time = req.body.time;
+  const showingID = req.body.showingID;
+
+  if (movieID == undefined || roomID == undefined || time == undefined) {
+    throw "Invalid showings request";
+  }
+
+  const query = "UPDATE showings SET Movie_ID=?, Room_ID=?, Date_Time=? WHERE Showing_ID=?";
+  connection.query(query, [movieID, roomID, time, showingID], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+app.patch("/rooms", (req, res) => {
+  const Room_ID = req.body.Room_ID;
+  const Capacity = req.body.Capacity;
+  const IMAX = req.body.IMAX;
+
+  console.log("bruh");
+
+  if (Room_ID == undefined || Capacity == undefined || IMAX == undefined) {
+    throw "Invalid reviews request";
+  }
+
+  const query = "UPDATE rooms SET Room_ID=?, Capacity=?, IMAX=? WHERE Room_ID=?";
+  connection.query(query, [Room_ID, Capacity, IMAX, Room_ID], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+
+/*
+app.patch("/seats", (req, res) => {
+  const roomID = parseInt(req.body.roomID);
+  const capacity = req.body.capacity;
+
+  if (roomID == undefined || capacity == undefined) {
+    throw "Invalid seat request";
+  }
+
+  const query = "INSERT INTO seats (Seat_ID, Room_ID) VALUES ?";
+  const values = [];
+
+  for (let i = 0; i < capacity; i++) {
+    values.push([roomID + i, roomID]);
+  }
+
+  connection.query(query, [values], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.send(results);
+  });
+});
+*/

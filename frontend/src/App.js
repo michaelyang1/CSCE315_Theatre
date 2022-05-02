@@ -129,6 +129,14 @@ function App() {
                   </h1>
                 </Link>
               </div>
+              <div>
+                <Link to="/rooms">
+                  <h1 className="text-4xl hover:text-purple-600">
+                    Create Room
+                  </h1>
+                </Link>
+              </div>
+
             </div>
           </Route>
         </Switch>
