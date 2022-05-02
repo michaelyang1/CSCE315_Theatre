@@ -9,6 +9,7 @@ import SelectUsers from "./routes/SelectUsers";
 import CreateReview from "./routes/CreateReview";
 import ConfirmTicket from "./routes/ConfirmTicket";
 import CreateRooms from "./routes/CreateRooms";
+import CreateUser from "./routes/CreateUser"
 import axios from "axios";
 import { useState } from "react";
 import Login from "./routes/login";
@@ -38,6 +39,9 @@ function App() {
               setShowing={setShowing}
               setRoom={setRoom}
             />
+          </Route>
+          <Route exact path="/createUser">
+            <CreateUser/>
           </Route>
           <Route exact path="/create">
             <CreateMovie />
@@ -82,13 +86,6 @@ function App() {
                 </Link>
                 <Link to="/delete">
                   <h1 className="text-4xl hover:text-lime-500">Delete Movie</h1>
-                </Link>
-              </div>
-              <div>
-                <Link to="/users">
-                  <h1 className="text-4xl hover:text-purple-600">
-                    Select User
-                  </h1>
                 </Link>
               </div>
               <div>
