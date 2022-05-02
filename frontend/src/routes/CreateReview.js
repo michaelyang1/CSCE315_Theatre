@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BsStarFill, BsTextCenter } from "react-icons/bs";
 
+// Contributed by David Erdner, as part of the Create Theater Review feature set (Feature Set 4)
 function ReviewCard({ Star_rating, Review, time }) {
   return (
     <center>
