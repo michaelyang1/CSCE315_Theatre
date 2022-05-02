@@ -358,6 +358,8 @@ app.delete("/movies", (req, res) => {
   }
 
   let query_string = `DELETE FROM movies WHERE Movie_ID = ?`;
+  // let query_string =
+  //   "DELETE movies, showings, tickets FROM showings INNER JOIN tickets ON showings.Showing_ID = tickets.Showing_ID INNER JOIN movies on showings.Movie_ID = movies.Movie_ID WHERE movies.Movie_ID = ?";
   connection.query(query_string, [movie_id], (error, results) => {
     if (error) {
       throw error;
