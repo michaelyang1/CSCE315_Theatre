@@ -51,7 +51,7 @@ function ViewProfile() {
       });
   }, [id]);
 
-  console.log(tickets);
+  console.log();
   return (
     <div className="font-mono">
       <h1 className="text-lg font-semibold break-words">USER INFORMATION:</h1>
