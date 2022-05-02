@@ -9,6 +9,7 @@ import Loading from "../images/loading.gif"
 const Checked = () => <>⚙</>;
 const UnChecked = () => <>🎞</>;
 
+// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1) 
 export default function Login() {
   const [UserName, setUserName] = useState("");
   const [password, setPassword] = useState("");
