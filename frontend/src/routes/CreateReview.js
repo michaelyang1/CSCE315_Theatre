@@ -1,21 +1,16 @@
 import axios from "axios";
-import { NEWDATE } from "mysql/lib/protocol/constants/types";
 import { useEffect, useState } from "react";
 import { BsStarFill, BsTextCenter } from "react-icons/bs";
-
-
 
 function ReviewCard({ Star_rating, Review, time }) {
   return (
     <center>
-    <div
-      className="w-200 max-w-xs shadow-md hover:bg-slate-100 flex flex-col flex-grow cursor-pointer"
-    >
-      <div className="flex flex-col flex-1 justify-between p-2">
-        <div>
-          <h1 className="text-lg font-semibold break-words" >
-            {Star_rating} stars
-            {/* <BsStarFill
+      <div className="w-200 max-w-xs shadow-md hover:bg-slate-100 flex flex-col flex-grow cursor-pointer">
+        <div className="flex flex-col flex-1 justify-between p-2">
+          <div>
+            <h1 className="text-lg font-semibold break-words">
+              {Star_rating} stars
+              {/* <BsStarFill
               className={`w-4 h-auto transition ease-in-out ${
                 (Star_rating)
                   ? "fill-amber-300"
@@ -23,23 +18,32 @@ function ReviewCard({ Star_rating, Review, time }) {
               }`}
             />
  */}
-          </h1>
-          <p className="italic">{time ? new Date (time).toLocaleString("default", {month: "2-digit", day: "2-digit", year: "2-digit", hour: "numeric", minute: "numeric"}): "Time..."}</p>
-          <p className="text-sm break-words">
-            {Review ? Review : "Reivew..."}
-          </p>
+            </h1>
+            <p className="italic">
+              {time
+                ? new Date(time).toLocaleString("default", {
+                    month: "2-digit",
+                    day: "2-digit",
+                    year: "2-digit",
+                    hour: "numeric",
+                    minute: "numeric",
+                  })
+                : "Time..."}
+            </p>
+            <p className="text-sm break-words">
+              {Review ? Review : "Reivew..."}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     </center>
   );
 }
 
-
-function ReviewList({reload}){
+function ReviewList({ reload }) {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    axios.get("/reviews").then(res => {
+    axios.get("/reviews").then((res) => {
       setReviews(res.data);
     });
   }, [reload]);
@@ -47,9 +51,15 @@ function ReviewList({reload}){
   console.log(reviews.Star_Rating);
   return (
     <div>
-      {reviews.map(review => (<ReviewCard Star_rating={review.Star_Rating} Review={review.Review} time={review.Time_Posted}/>))}
+      {reviews.map((review) => (
+        <ReviewCard
+          Star_rating={review.Star_Rating}
+          Review={review.Review}
+          time={review.Time_Posted}
+        />
+      ))}
     </div>
-  )
+  );
 }
 
 function StarRating({ hover, setHover, rating, setRating }) {
@@ -80,7 +90,7 @@ function StarRating({ hover, setHover, rating, setRating }) {
   );
 }
 
-function Review({ username, verified, user, reload, setReload}) {
+function Review({ username, verified, user, reload, setReload }) {
   const [hover, setHover] = useState(0);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
@@ -113,17 +123,18 @@ function Review({ username, verified, user, reload, setReload}) {
       //alert(
       //  `pretend to submit this review: ${rating}, ${new Date().toLocaleString()}, ${review}`
       //);
-      axios.post("/reviews", {
-            userID: 4,
-            rating: rating,
-            review: review,
-            time: new Date()
-          })
-          .then(() => {
-            setRating(0);
-            setReview("");
-            setReload(!reload);
-          });
+      axios
+        .post("/reviews", {
+          userID: 4,
+          rating: rating,
+          review: review,
+          time: new Date(),
+        })
+        .then(() => {
+          setRating(0);
+          setReview("");
+          setReload(!reload);
+        });
     }
   };
 
@@ -177,15 +188,22 @@ function Review({ username, verified, user, reload, setReload}) {
   );
 }
 
-
-function CreateReview({user}) {
+function CreateReview({ user }) {
   const [reload, setReload] = useState(false);
   return (
     <div className="flex justify-center">
       <div className="w-2/5 flex flex-col gap-4">
         <h1 className="text-3xl uppercase font-thin">Create Review</h1>
-        { <Review username={"Donuts"} verified={true} user={user} reload={reload} setReload={setReload}/>  }
-        <ReviewList reload={reload}/> 
+        {
+          <Review
+            username={"Donuts"}
+            verified={true}
+            user={user}
+            reload={reload}
+            setReload={setReload}
+          />
+        }
+        <ReviewList reload={reload} />
       </div>
     </div>
   );
