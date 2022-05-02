@@ -1,8 +1,9 @@
 
 import { useState } from 'react';
-import "./createUser.css";
+import "./CreateUser.css";
  
-export default function Form() {
+
+function CreateUser() {
  
   // States for registration
   const [name, setName] = useState('');
@@ -101,3 +102,5 @@ export default function Form() {
     </div>
   );
 }
+
+export default CreateUser

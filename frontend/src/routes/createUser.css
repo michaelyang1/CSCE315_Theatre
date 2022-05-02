@@ -1,19 +1,27 @@
-.label{
+
+.form{
+    text-align: center;
+}
+
+   
+  .label{
     display: block;
     font-size: larger;
-    color: white;
+    color: black;
     padding: 5px;
   }
    
   .input{
-    font-size: larger;
-    padding: 5px;
-    margin: 2px;
-    
+    margin: 0 auto;
+    max-width: 320px;
+    border:  1px solid #000000;
+    border-radius: 10px;
+    margin: 5px;
+    height: 25px;
   }
   .btn{
     color: white;
-    background-color: red;
+    background-color: black ;
     border-radius: 5px;
     font-size: larger;
     display: block;
@@ -29,7 +37,7 @@
   .error{
     display: block;
     background-color: red;
-    color: white;
+    color: black;
     width: fit-content;
     height: 50px;
     padding: 5px;
