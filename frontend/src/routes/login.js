@@ -33,7 +33,7 @@ export default function Login() {
 
   function validateUser(username, password, adminStatus){
     var userExists = allUsers.map(userObj => {
-      if(userObj.Username == username && userObj.Password == password && userObj.Admin_Status == adminStatus ){
+      if(userObj.Username === username && userObj.Password === password && userObj.Admin_Status === adminStatus ){
         console.log("user: ", userObj)
         return true;
       }       
