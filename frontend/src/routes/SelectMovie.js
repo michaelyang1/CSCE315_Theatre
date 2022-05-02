@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 
+// Contributed by Anubhav Aryal, as part of the Select Movie and Create Ticket feature set (Feature Set 3)
 function MovieGrid({ setMovie, search }) {
   const history = useHistory();
   const handleClick = useCallback(() => history.push("/showings"), [history]);
