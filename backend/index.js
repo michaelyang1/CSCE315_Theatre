@@ -112,11 +112,14 @@ app.get("/reviews", (req, res) => {
 });
 
 app.get("/tickets", (req, res) => {
-  const query = "SELECT * FROM tickets";
-  connection.query(query, (error, results) => {
+  const id = req.query.id;
+  console.log(id);
+  const query = "SELECT * FROM tickets WHERE User_ID=?";
+  connection.query(query, [id],(error, results) => {
     if (error) {
       throw error;
     }
+    console.log(results);
     res.send(results);
   });
 });
