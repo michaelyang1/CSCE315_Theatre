@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 function Field({
   value,
@@ -43,39 +44,45 @@ function Field({
   );
 }
 
-//function Room(Room_ID, Capacity, IMAX) {
-function Room() {
-  const [Room_ID, setRoom_ID] = useState(0);
-  const [Capacity, setCapacity] = useState(0);
-  const [IMAX, setIMAX] = useState(0);
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+function UpdateRoom() {
+  const { id } = useParams();
+  const navigate = useHistory();
 
-  const handleSubmit = () => {
-    if (Room_ID === "" || Capacity === "" || IMAX === "") {
+  const [capacity, setCapacity] = useState(0);
+  const [IMAX, setIMAX] = useState(0);
+
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("/rooms", {
+        params: {
+          room: id,
+        },
+      })
+      .then((res) => {
+        const room = res.data[0];
+
+        setCapacity(room.Capacity);
+        setIMAX(room.IMAX);
+      });
+  }, [id]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (capacity === "" || IMAX === "") {
       setError(true);
     } else {
       setError(false);
-      alert(`Room Creation Successful!`);
+      alert(`Room Update Successful!`);
       axios
-        .post("/rooms", {
-          Room_ID: Room_ID,
-          Capacity: Capacity,
+        .patch("/rooms", {
+          Room_ID: id,
+          Capacity: capacity,
           IMAX: IMAX,
         })
         .then(() => {
-          console.log("hey");
-          axios
-            .post("/seats", {
-              roomID: Room_ID,
-              capacity: Capacity,
-            })
-            .then(() => {
-              setSuccess(true);
-              setRoom_ID("");
-              setCapacity("");
-              setIMAX("");
-            });
+          navigate.goBack();
         });
     }
   };
@@ -84,21 +91,9 @@ function Room() {
     <form className="space-y-2 shadow-md p-4" noValidate>
       <div>
         <Field
-          value={Room_ID}
-          setValue={setRoom_ID}
-          success={success}
-          placeholder="Enter Room Number."
-          label="Room Number:"
-          id="Room_ID"
-          type="input"
-        />
-      </div>
-
-      <div>
-        <Field
-          value={Capacity}
+          value={capacity}
           setValue={setCapacity}
-          success={success}
+          success={false}
           placeholder="Enter Capacity."
           label="Room Capacity:"
           id="Capacity"
@@ -110,7 +105,7 @@ function Room() {
         <Field
           value={IMAX}
           setValue={setIMAX}
-          success={success}
+          success={false}
           placeholder="Is room IMAX?"
           label="IMAX:"
           id="IMAX"
@@ -119,7 +114,7 @@ function Room() {
       </div>
 
       <p className={`${!error ? "hidden" : ""} text-red-500 italic text-sm`}>
-        Cannot Create Room until all fields are filled.
+        Cannot update room until all fields are filled.
       </p>
 
       <div>
@@ -127,22 +122,11 @@ function Room() {
           className="border border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-white px-4 py-2 rounded font-semibold hover:shadow-md hover:shadow-emerald-200"
           onClick={handleSubmit}
         >
-          Create Room
+          Update Room
         </button>
       </div>
     </form>
   );
 }
 
-function CreateRooms({ user }) {
-  return (
-    <div className="flex justify-center">
-      <div className="w-2/5 flex flex-col gap-4">
-        <h1 className="text-3xl uppercase font-thin">Create Room</h1>
-        {<Room />}
-      </div>
-    </div>
-  );
-}
-
-export default CreateRooms;
+export default UpdateRoom;
