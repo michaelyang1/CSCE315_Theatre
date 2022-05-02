@@ -51,7 +51,7 @@ app.get("/seats", (req, res) => {
   const id = req.query.showing;
 
   const query =
-    "SELECT seats.Seat_ID, Type, CASE WHEN seats.Seat_ID = tickets.Seat_ID THEN 1 ELSE 0 END AS Reserved FROM showings INNER JOIN seats ON showings.Room_ID = seats.Room_ID LEFT OUTER JOIN tickets ON showings.Showing_ID = tickets.Showing_ID AND seats.Seat_ID = tickets.Seat_ID WHERE showings.Showing_ID = ?";
+    "SELECT seats.Seat_ID, CASE WHEN seats.Seat_ID = tickets.Seat_ID THEN 1 ELSE 0 END AS Reserved FROM showings INNER JOIN seats ON showings.Room_ID = seats.Room_ID LEFT OUTER JOIN tickets ON showings.Showing_ID = tickets.Showing_ID AND seats.Seat_ID = tickets.Seat_ID WHERE showings.Showing_ID = ?";
   connection.query(query, [id], (error, results) => {
     if (error) {
       throw error;
@@ -109,7 +109,7 @@ app.get("/tickets", (req, res) => {
   });
 });
 
-// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1) 
+// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1)
 app.get("/users", (req, res) => {
   const id = req.query.id;
 
@@ -284,7 +284,7 @@ app.post("/tickets", (req, res) => {
   });
 });
 
-// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1) 
+// Contributed by Nadxhieli Juarez as part of the Login for User/Admin feature set (Feature Set 1)
 app.post("/users", (req, res) => {
   const adminStatus = req.body.adminStatus;
   const firstName = req.body.firstName;
