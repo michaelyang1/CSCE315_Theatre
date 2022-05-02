@@ -11,6 +11,7 @@ import ConfirmTicket from "./routes/ConfirmTicket";
 import CreateRooms from "./routes/CreateRooms";
 import axios from "axios";
 import { useState } from "react";
+import Login from "./routes/login";
 
 axios.defaults.baseURL = "http://localhost:5914";
 
@@ -64,7 +65,11 @@ function App() {
           <Route exact path="/confirm">
             <ConfirmTicket userID={user} showingID={showing} seatIDS={seats} />
           </Route>
-          <Route path="/">
+          
+          <Route exact path = "/">
+            <Login></Login>
+          </Route>
+          <Route exact path = "/forNow">
             <div className="flex gap-8 font-thin">
               <div>
                 <Link to="/movies">
@@ -103,6 +108,49 @@ function App() {
 
             </div>
           </Route>
+
+
+          <Route exact path= "/userLanding">
+             <div>
+                  <Link to="/movies">
+                    <h1 className="text-4xl hover:text-pink-500">Select Movie</h1>
+                  </Link>
+                </div>
+                <div>
+                <Link to="/reviews">
+                  <h1 className="text-4xl hover:text-yellow-400">
+                    Create Review
+                  </h1>
+                </Link>
+              </div>
+          </Route>
+
+          <Route path="/adminLanding">
+            <div className="flex gap-8 font-thin">
+              <div>
+                <Link to="/create">
+                  <h1 className="text-4xl hover:text-orange-300">
+                    Create Movie
+                  </h1>
+                </Link>
+                <Link to="/delete">
+                  <h1 className="text-4xl hover:text-lime-500">Delete Movie</h1>
+                </Link>
+              </div>
+              <div>
+                <Link to="/users">
+                  <h1 className="text-4xl hover:text-purple-600">
+                    Select User
+                  </h1>
+                </Link>
+              </div>
+
+            </div>
+          </Route>
+
+
+
+
         </Switch>
       </div>
     </Router>
