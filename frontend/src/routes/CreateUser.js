@@ -1,41 +1,37 @@
 
 import { useState } from 'react';
 import "./CreateUser.css";
+import ToggleButton from "../components/ToggleButton";
  
 
-function CreateUser() {
+function CreateUser({user, setUser})  {
  
   // States for registration
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [fName, setFName] = useState('');
+  const [lName, setLName] = useState('');
+  const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
+  
+  const Checked = () => <>⚙</>;
+  const UnChecked = () => <>🎞</>;
+  const [status, setStatus] = useState("User");
  
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
  
   // Handling the name change
-  const handleName = (e) => {
-    setName(e.target.value);
-    setSubmitted(false);
-  };
- 
-  // Handling the email change
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    setSubmitted(false);
-  };
- 
-  // Handling the password change
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setSubmitted(false);
-  };
- 
+
+  const handleChange = e => {
+    const{name, value} = e.target;
+    setUser({...setUser, [name]: value});
+    console.log("Form is set to: ", setUser)
+  }
+
   // Handling the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name === '' || email === '' || password === '') {
+    if (fName === '' || username === '' || password === '') {
       setError(true);
     } else {
       setSubmitted(true);
@@ -51,7 +47,7 @@ function CreateUser() {
         style={{
           display: submitted ? '' : 'none',
         }}>
-        <h1>User {name} successfully registered!!</h1>
+        <h1>User {fName} successfully registered!!</h1>
       </div>
     );
   };
@@ -68,38 +64,56 @@ function CreateUser() {
       </div>
     );
   };
- 
+
+  function handleToggle(state){
+    console.log(state)
+    if(state == true){
+      setStatus("Admin");
+    } else {
+      setStatus("User");
+    }
+    
+  }
+
+ //form className='form'
   return (
-    <div className="form">
-      <div>
-        <h1>User Registration</h1>
-      </div>
- 
+      <>
+    <div className="formCreateUser">
+        <div>
+            <h1>User Registration</h1>
+        </div>
       {/* Calling to the methods */}
       <div className="messages">
         {errorMessage()}
         {successMessage()}
       </div>
  
-      <form>
+      <form className='form'>
         {/* Labels and inputs for form data */}
-        <label className="label">Name</label>
-        <input onChange={handleName} className="input"
-          value={name} type="text" />
+        <label className="label">First Name</label>
+        <div className='row'>
+        <input onChange={handleChange} className="input"
+          value={CreateUser.fName} type="text" />
+        </div>
  
-        <label className="label">Email</label>
-        <input onChange={handleEmail} className="input"
-          value={email} type="email" />
+        <label className="label">Username</label>
+        <input onChange={handleChange} className="input"
+          value={CreateUser.username} type="username" />
  
         <label className="label">Password</label>
-        <input onChange={handlePassword} className="input"
-          value={password} type="password" />
- 
+        <input onChange={handleChange} className="input"
+          value={CreateUser.password} type="password" />
+
+        <div className='ToggleSection'>
+            <h1>{status}</h1>
+            <ToggleButton onChange={state => handleToggle(state)} icons={{checked: <Checked />, unchecked: <UnChecked />}} />
+        </div>
         <button onClick={handleSubmit} className="btn" type="submit">
           Submit
         </button>
       </form>
     </div>
+    </>
   );
 }
 
