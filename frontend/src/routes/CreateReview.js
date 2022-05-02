@@ -1,5 +1,4 @@
 import axios from "axios";
-import { NEWDATE } from "mysql/lib/protocol/constants/types";
 import { useEffect, useState } from "react";
 import { BsStarFill, BsTextCenter } from "react-icons/bs";
 
